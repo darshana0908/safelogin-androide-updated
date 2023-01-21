@@ -1,0 +1,4 @@
+#Fri Jan 20 15:18:53 IST 2023
+base.0=F\:\\textflutter\\safe_login_stage-3\\android\\app\\build\\intermediates\\dex\\release\\minifyReleaseWithR8\\classes.dex
+renamed.0=classes.dex
+path.0=classes.dex
