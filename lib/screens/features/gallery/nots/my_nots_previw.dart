@@ -117,38 +117,23 @@ class _MyNotePrevewState extends State<MyNotePrevew> {
         child: Column(children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(35), color: kliteblue),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(25),
-                      color: kliteblue),
-                  child: Card(
-                    color: kliteblue,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextField(
-                          // onSubmitted: (value) {
-                          //   log(value);
-                          // },
-                          onChanged: (value) {
-                            if (value != null) {
-                              log('hhh');
-                            } else {
-                              log("nnn");
-                            }
-                            log(value);
-                          },
-                          decoration: const InputDecoration(),
-                          controller: controler,
-                          maxLines: 30),
-                    ),
-                  ),
-                ),
-              ),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                  // onSubmitted: (value) {
+                  //   log(value);
+                  // },
+                  onChanged: (value) {
+                    if (value != null) {
+                      log('hhh');
+                    } else {
+                      log("nnn");
+                    }
+                    log(value);
+                  },
+                  decoration: const InputDecoration(),
+                  controller: controler,
+                  maxLines: 30),
             ),
           ),
           TextButton(

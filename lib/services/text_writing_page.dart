@@ -7,6 +7,7 @@ import 'package:file_cryptor/file_cryptor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:html_editor_enhanced/utils/shims/dart_ui_real.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:safe_encrypt/constants/colors.dart';
 import 'package:safe_encrypt/db/sqldb.dart';
@@ -161,58 +162,43 @@ class _TxtWritingPageState extends State<TxtWritingPage> {
               icon: const Icon(Icons.arrow_back),
             ),
             backgroundColor: kdarkblue,
-            actions: [
-              IconButton(
-                icon: const Icon(Icons.save_alt),
-                onPressed: () {
-                  savefiledialog();
-                },
-              ),
-            ],
           ),
           body: SingleChildScrollView(
             child: Column(children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(35),
-                      color: kliteblue),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(25),
-                          color: kliteblue),
-                      child: Card(
-                        color: kliteblue,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: TextField(
-                            decoration:
-                                const InputDecoration(helperText: 'type hear'),
-                            controller: controler1,
-                            maxLines: 30,
-                          ),
-                        ),
-                      ),
-                    ),
+                  child: TextField(
+                    decoration: InputDecoration(hintText: 'type here'),
+                    controller: controler1,
+                    maxLines: 25,
                   ),
                 ),
               ),
               TextButton(
                 onPressed: () {
-                  savefiledialog();
-                  setState(() {
-                    savebutton = false;
-                    controler.clear();
-                    remainderDate = 0;
-                    remainderbutton = false;
-                  });
+                  if (controler1.text.isNotEmpty) {
+                    savefiledialog();
+                    setState(() {
+                      savebutton = false;
+                      controler.clear();
+                      remainderDate = 0;
+                      remainderbutton = false;
+                    });
+                  } else {
+                    Fluttertoast.showToast(
+                        msg: " required characters",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.BOTTOM,
+                        timeInSecForIosWeb: 1,
+                        backgroundColor: Colors.lightGreen,
+                        textColor: Colors.white,
+                        fontSize: 16.0);
+                  }
                 },
                 child: Container(
                     alignment: Alignment.center,
-                    height: 50,
+                    height: 60,
                     width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
                         color: const Color.fromARGB(255, 2, 235, 123),
@@ -234,6 +220,86 @@ class _TxtWritingPageState extends State<TxtWritingPage> {
       builder: (BuildContext context) {
         return StatefulBuilder(builder: (context, setState) {
           return AlertDialog(
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  controler1.clear();
+                },
+                child: Container(
+                    width: 150,
+                    alignment: Alignment.center,
+                    height: 50,
+                    decoration: BoxDecoration(
+                        color: kblue, borderRadius: BorderRadius.circular(10)),
+                    child: Text(
+                      'close',
+                      style: TextStyle(color: kwhite, fontSize: 21),
+                    )),
+              ),
+              TextButton(
+                onPressed: () async {
+                  if (controler.text.isNotEmpty) {
+                    if (controler.text.length < 30) {
+                      response = await sqlDb.insertData(
+                          "INSERT INTO notes ('pin','folder','text','dtime','path','imgname','textvalue') VALUES('${widget.pin}','${widget.title}','null','null','${widget.path}','${controler.text}','${controler1.text}')");
+
+                      List<Map> responsea =
+                          await sqlDb.readData("SELECT * FROM  'notes' ");
+                      print(responsea);
+                      // setState(() {
+                      //   // savebutton = true;
+                      //   filesave = true;
+                      // });
+                      Fluttertoast.showToast(
+                          msg: " (${controler.text}) Title Saved",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.BOTTOM,
+                          timeInSecForIosWeb: 1,
+                          backgroundColor: Colors.lightGreen,
+                          textColor: Colors.white,
+                          fontSize: 16.0);
+                      controler1.clear();
+                      Navigator.pop(context);
+
+                      // setState(() {
+                      //   // Navigator.pop(context);
+                      //   controler.clear();
+                      //   controler1.clear();
+                      // });
+                    } else {
+                      Fluttertoast.showToast(
+                          msg: " Required less than 30 characters",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.CENTER,
+                          timeInSecForIosWeb: 1,
+                          backgroundColor: Colors.red,
+                          textColor: Colors.white,
+                          fontSize: 16.0);
+                    }
+                  } else {
+                    Fluttertoast.showToast(
+                        msg: "Text File Name Required",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.CENTER,
+                        timeInSecForIosWeb: 1,
+                        backgroundColor: Colors.red,
+                        textColor: Colors.white,
+                        fontSize: 16.0);
+                  }
+                },
+                child: Container(
+                    width: 150,
+                    alignment: Alignment.center,
+                    height: 50,
+                    decoration: BoxDecoration(
+                        color: kblue, borderRadius: BorderRadius.circular(10)),
+                    child: Text(
+                      'save',
+                      style: TextStyle(color: kwhite, fontSize: 21),
+                    )),
+              )
+            ],
             // backgroundColor: kdarkblue,
             // title: const Text('AlertDialog Title'),
             content: SingleChildScrollView(
@@ -245,80 +311,21 @@ class _TxtWritingPageState extends State<TxtWritingPage> {
                   'Title',
                   style: TextStyle(fontSize: 21, fontWeight: FontWeight.w500),
                 ),
-                TextField(
-                  controller: controler,
-                  maxLength: 30,
-                  maxLines: 2,
-                  readOnly: savebutton ? true : false,
-                  decoration: InputDecoration(
-                    hintText: "Type hear",
-                    suffixIcon: savebutton
-                        ? const Icon(
-                            Icons.check_outlined,
-                            color: Color.fromARGB(255, 5, 197, 104),
-                            size: 26,
-                          )
-                        : TextButton(
-                            child: Container(
-                                alignment: Alignment.center,
-                                width: 60,
-                                height: 40,
-                                color: kliteblue,
-                                child: Text(
-                                  'Add',
-                                  style: TextStyle(color: kwhite),
-                                )),
-                            onPressed: () async {
-                              if (controler.text.isNotEmpty) {
-                                if (controler.text.length < 30) {
-                                  response = await sqlDb.insertData(
-                                      "INSERT INTO notes ('pin','folder','text','dtime','path','imgname','textvalue') VALUES('${widget.pin}','${widget.title}','null','null','${widget.path}','${controler.text}','${controler1.text}')");
-
-                                  List<Map> responsea = await sqlDb
-                                      .readData("SELECT * FROM  'notes' ");
-                                  print(responsea);
-                                  setState(() {
-                                    savebutton = true;
-                                    filesave = true;
-                                  });
-                                  Fluttertoast.showToast(
-                                      msg: " (${controler.text}) Title Saved",
-                                      toastLength: Toast.LENGTH_SHORT,
-                                      gravity: ToastGravity.BOTTOM,
-                                      timeInSecForIosWeb: 1,
-                                      backgroundColor: Colors.lightGreen,
-                                      textColor: Colors.white,
-                                      fontSize: 16.0);
-
-                                  // setState(() {
-                                  //   // Navigator.pop(context);
-                                  //   controler.clear();
-                                  //   controler1.clear();
-                                  // });
-                                } else {
-                                  Fluttertoast.showToast(
-                                      msg: " Required less than 30 characters",
-                                      toastLength: Toast.LENGTH_SHORT,
-                                      gravity: ToastGravity.CENTER,
-                                      timeInSecForIosWeb: 1,
-                                      backgroundColor: Colors.red,
-                                      textColor: Colors.white,
-                                      fontSize: 16.0);
-                                }
-                              } else {
-                                Fluttertoast.showToast(
-                                    msg: "Text File Name Required",
-                                    toastLength: Toast.LENGTH_SHORT,
-                                    gravity: ToastGravity.CENTER,
-                                    timeInSecForIosWeb: 1,
-                                    backgroundColor: Colors.red,
-                                    textColor: Colors.white,
-                                    fontSize: 16.0);
-                              }
-                            },
-                          ),
-                  ),
+                SizedBox(
+                  height: 50,
                 ),
+                TextField(
+                    controller: controler,
+                    maxLength: 30,
+                    maxLines: 2,
+                    readOnly: savebutton ? true : false,
+                    decoration: InputDecoration(
+                      hintText: 'type here',
+                      enabledBorder: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(width: 3, color: Colors.greenAccent),
+                      ),
+                    )),
                 const SizedBox(
                   height: 50,
                   width: 350,

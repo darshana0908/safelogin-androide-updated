@@ -117,7 +117,7 @@ class _MyNotsState extends State<MyNots> {
               crossAxisCount: 2, crossAxisSpacing: 4.0, mainAxisSpacing: 4.0),
           itemBuilder: (BuildContext context, index) {
             String imgPath = remainders[index]['text'];
-
+//dddddddd
             TextEditingController mycontroller = TextEditingController(
                 text: remainders[index]['textvalue'].toString());
             print(imgPath);

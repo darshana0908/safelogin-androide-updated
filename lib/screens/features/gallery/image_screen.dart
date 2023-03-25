@@ -62,6 +62,8 @@ class _ImageScreenState extends State<ImageScreen>
   bool notesButton = false;
   var coverimgpath;
   String finalImage = '';
+  bool isImageLoading = true;
+
   // final TabController _tabController = TabController(length: 2, vsync: );
 
   @override
@@ -120,8 +122,10 @@ class _ImageScreenState extends State<ImageScreen>
     if (coverimgpath == true) {
       setState(() {
         uploadimgpath = true;
+        log(uploadimgpath.toString());
       });
     } else {
+      log(uploadimgpath.toString());
       setState(() {
         uploadimgpath = false;
       });
@@ -132,7 +136,7 @@ class _ImageScreenState extends State<ImageScreen>
       print('ggggggggggggggggg');
       print(coverimgpath);
       log(coverimgpath.toString());
-      bool isImageLoading = false;
+      isImageLoading = false;
     });
   }
 
@@ -195,109 +199,28 @@ class _ImageScreenState extends State<ImageScreen>
                             : Container(),
                       ],
                       flexibleSpace: SizedBox(
-                        height: 620,
+                        height: 650,
                         child: FlexibleSpaceBar(
-                          centerTitle: true,
-                          collapseMode: CollapseMode.parallax,
-                          expandedTitleScale: 50,
-                          background: SizedBox(
-                              height: 500,
+                            centerTitle: true,
+                            collapseMode: CollapseMode.parallax,
+                            expandedTitleScale: 50,
+                            background: SizedBox(
+                              height: 650,
                               child: imgload
-                                  ? SizedBox(
-                                      height: 600,
-                                      child: Column(
-                                        children: [
-                                          (decryptedImages.last.toLowerCase().endsWith('jpg') ||
-                                                  decryptedImages.last
-                                                      .toLowerCase()
-                                                      .endsWith('jpeg'))
-                                              ? SizedBox(
-                                                  height: MediaQuery.of(context)
-                                                          .size
-                                                          .height *
-                                                      0.27,
-                                                  width: MediaQuery.of(context)
-                                                      .size
-                                                      .width,
-                                                  child: Image.file(
-                                                    File(decryptedImages.last),
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                )
-                                              : (decryptedImages.last
-                                                          .toLowerCase()
-                                                          .endsWith('mp4') ||
-                                                      decryptedImages.last
-                                                          .toLowerCase()
-                                                          .endsWith('mp3') ||
-                                                      decryptedImages.last
-                                                          .toLowerCase()
-                                                          .endsWith('avi') ||
-                                                      decryptedImages.last
-                                                          .toLowerCase()
-                                                          .endsWith('mpeg'))
-                                                  ? SizedBox(
-                                                      height:
-                                                          MediaQuery.of(context).size.height *
-                                                              0.27,
-                                                      width: MediaQuery.of(context)
-                                                          .size
-                                                          .width,
-                                                      child: Image.asset(videoIcon,
-                                                          fit:
-                                                              BoxFit.scaleDown))
-                                                  : (decryptedImages.last
-                                                          .toLowerCase()
-                                                          .endsWith('pdf'))
-                                                      ? SizedBox(
-                                                          height: MediaQuery.of(context).size.height * 0.27,
-                                                          width: MediaQuery.of(context).size.width,
-                                                          child: Image.asset(pdfIcon, fit: BoxFit.scaleDown))
-                                                      : (decryptedImages.last.toLowerCase().endsWith('docx') || decryptedImages.last.toLowerCase().endsWith('ppt'))
-                                                          ? SizedBox(height: MediaQuery.of(context).size.height * 0.27, width: MediaQuery.of(context).size.width, child: Image.asset(docsIcon, fit: BoxFit.scaleDown))
-                                                          : (decryptedImages.last.toLowerCase().endsWith('txt') || decryptedImages.last.toLowerCase().endsWith('txt'))
-                                                              ? SizedBox(height: MediaQuery.of(context).size.height * 0.27, width: MediaQuery.of(context).size.width, child: Image.asset('assets/text.png', fit: BoxFit.scaleDown))
-                                                              : remainder.last
-                                                                  ? SizedBox(
-                                                                      height: MediaQuery.of(context)
-                                                                              .size
-                                                                              .height *
-                                                                          0.27,
-                                                                      width: MediaQuery.of(
-                                                                              context)
-                                                                          .size
-                                                                          .width,
-                                                                      child: Image
-                                                                          .asset(
-                                                                        'assets/ic.JPG',
-                                                                        fit: BoxFit
-                                                                            .cover,
-                                                                      ),
-                                                                    )
-                                                                  : SizedBox(
-                                                                      height: MediaQuery.of(context)
-                                                                              .size
-                                                                              .height *
-                                                                          0.27,
-                                                                      width: MediaQuery.of(
-                                                                              context)
-                                                                          .size
-                                                                          .width,
-                                                                      child: Image
-                                                                          .asset(
-                                                                        'assets/ic.JPG',
-                                                                        fit: BoxFit
-                                                                            .cover,
-                                                                      ),
-                                                                    ),
-                                        ],
-                                      ),
-                                    )
-                                  : Image.file(
-                                      File(finalImage),
-                                      fit: BoxFit.cover,
-                                    )),
-                        ),
+                                  ? const CupertinoActivityIndicator()
+                                  : SizedBox(
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.27,
+                                      child: uploadimgpath
+                                          ? Image.file(
+                                              File(finalImage),
+                                              fit: BoxFit.cover,
+                                            )
+                                          : Image.asset(finalImage,
+                                              fit: BoxFit.cover),
+                                    ),
+                            )),
                       ),
                       title: SizedBox(
                         width: 300,
@@ -344,7 +267,7 @@ class _ImageScreenState extends State<ImageScreen>
                           indicatorSize: TabBarIndicatorSize.label,
                           indicator: BoxDecoration(
                             gradient: LinearGradient(colors: [
-                              Color.fromARGB(255, 237, 232, 232),
+                              Color.fromARGB(255, 186, 108, 192),
                               Color.fromARGB(255, 147, 224, 211)
                             ]),
                             borderRadius: BorderRadius.only(

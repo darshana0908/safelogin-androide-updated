@@ -91,7 +91,8 @@ class _PlatformAlbumState extends State<PlatformAlbum> {
       'foldername-${widget.title}-${widget.pinnuber}-bool',
     );
 
-    var imageName = sharedPreferences.getString('foldername-${widget.title}-${widget.pinnuber}');
+    var imageName = sharedPreferences
+        .getString('foldername-${widget.title}-${widget.pinnuber}');
     if (coverimgpath == true) {
       setState(() {
         uploadimgpath = true;
@@ -145,7 +146,8 @@ class _PlatformAlbumState extends State<PlatformAlbum> {
                         scrollDirection: Axis.horizontal,
                         child: Text(
                           widget.title,
-                          style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
+                          style: const TextStyle(
+                              fontSize: 17, fontWeight: FontWeight.w500),
                         ),
                       ),
                     ),
@@ -165,7 +167,8 @@ class _PlatformAlbumState extends State<PlatformAlbum> {
                                     child: TextButton(
                                         style: const ButtonStyle(),
                                         autofocus: true,
-                                        child: const Text('Delete', style: TextStyle(fontSize: 17)),
+                                        child: const Text('Delete',
+                                            style: TextStyle(fontSize: 17)),
                                         onPressed: () {
                                           // setState(() {
                                           //   delete(widget.path);
@@ -176,24 +179,30 @@ class _PlatformAlbumState extends State<PlatformAlbum> {
                                               headerAnimationLoop: false,
                                               animType: AnimType.TOPSLIDE,
                                               showCloseIcon: true,
-                                              closeIcon: const Icon(Icons.close_fullscreen_outlined),
+                                              closeIcon: const Icon(Icons
+                                                  .close_fullscreen_outlined),
                                               title: 'Warning',
-                                              desc: 'Are you sure want to delete folder',
+                                              desc:
+                                                  'Are you sure want to delete folder',
                                               btnCancelOnPress: () {},
                                               onDismissCallback: (type) {
-                                                debugPrint('Dialog Dissmiss from callback $type');
+                                                debugPrint(
+                                                    'Dialog Dissmiss from callback $type');
                                               },
                                               btnOkOnPress: () async {
                                                 String key = '';
                                                 setState(() {
-                                                  finalImage = imageName.toString();
+                                                  finalImage =
+                                                      imageName.toString();
                                                   delete(widget.path);
                                                   print(widget.pinnuber);
                                                   Navigator.push(
                                                       context,
                                                       MaterialPageRoute(
-                                                          builder: (_) => GalleryHome(
-                                                                pinNumber: widget.pinnuber,
+                                                          builder: (_) =>
+                                                              GalleryHome(
+                                                                pinNumber: widget
+                                                                    .pinnuber,
                                                               )));
                                                 });
                                               }).show();
@@ -216,8 +225,10 @@ class _PlatformAlbumState extends State<PlatformAlbum> {
                                           MaterialPageRoute(
                                               builder: (_) => AlbumSettings(
                                                     getbool: widget.getbool,
-                                                    PlatformPath: widget.PlatformPath,
-                                                    getRenameFolderlist: widget.getRenameFolderlist,
+                                                    PlatformPath:
+                                                        widget.PlatformPath,
+                                                    getRenameFolderlist: widget
+                                                        .getRenameFolderlist,
                                                     foldernames: widget.title,
                                                     path: widget.path,
                                                     pin: widget.pinnuber,
@@ -245,7 +256,8 @@ class _PlatformAlbumState extends State<PlatformAlbum> {
                                               context,
                                               MaterialPageRoute(
                                                   builder: (_) => GalleryHome(
-                                                        pinNumber: widget.pinnuber,
+                                                        pinNumber:
+                                                            widget.pinnuber,
                                                       )),
                                               (Route<dynamic> route) => false);
                                         },
@@ -300,7 +312,10 @@ class _PlatformAlbumState extends State<PlatformAlbum> {
                     children: [
                       const Text(
                         "Create new pin",
-                        style: TextStyle(color: Colors.white60, fontSize: 25, fontWeight: FontWeight.w600),
+                        style: TextStyle(
+                            color: Colors.white60,
+                            fontSize: 25,
+                            fontWeight: FontWeight.w600),
                       ),
                       Form(
                         autovalidateMode: AutovalidateMode.always,
@@ -324,8 +339,15 @@ class _PlatformAlbumState extends State<PlatformAlbum> {
                           },
                           decoration: const InputDecoration(
                               hintText: 'enter pin ',
-                              hintStyle: TextStyle(color: Colors.white, fontSize: 19, fontWeight: FontWeight.w500),
-                              label: Text('pin number', style: TextStyle(color: Colors.blue, fontSize: 21, fontWeight: FontWeight.w500))),
+                              hintStyle: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 19,
+                                  fontWeight: FontWeight.w500),
+                              label: Text('pin number',
+                                  style: TextStyle(
+                                      color: Colors.blue,
+                                      fontSize: 21,
+                                      fontWeight: FontWeight.w500))),
                         ),
                       ),
                       Form(
@@ -347,14 +369,25 @@ class _PlatformAlbumState extends State<PlatformAlbum> {
                                 borderSide: BorderSide(color: Colors.grey),
                               ),
                               hintText: 're enter pin',
-                              hintStyle: TextStyle(color: Colors.white, fontSize: 19, fontWeight: FontWeight.w500),
-                              label: Text('re enter pin number', style: TextStyle(color: Colors.blue, fontSize: 21, fontWeight: FontWeight.w500))),
+                              hintStyle: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 19,
+                                  fontWeight: FontWeight.w500),
+                              label: Text('re enter pin number',
+                                  style: TextStyle(
+                                      color: Colors.blue,
+                                      fontSize: 21,
+                                      fontWeight: FontWeight.w500))),
                         ),
                       ),
                       const SizedBox(
                         height: 10,
                       ),
-                      const Text('number of attempts', style: TextStyle(color: Colors.blue, fontSize: 21, fontWeight: FontWeight.w500)),
+                      const Text('number of attempts',
+                          style: TextStyle(
+                              color: Colors.blue,
+                              fontSize: 21,
+                              fontWeight: FontWeight.w500)),
                       const SizedBox(
                         height: 10,
                       ),
@@ -373,8 +406,14 @@ class _PlatformAlbumState extends State<PlatformAlbum> {
                                 alignment: Alignment.center,
                                 height: 30,
                                 width: 30,
-                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(100), color: attempt == 1 ? kliteblue : kgray),
-                                child: Text('1', style: TextStyle(color: kblack, fontSize: 21, fontWeight: FontWeight.w500))),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(100),
+                                    color: attempt == 1 ? kliteblue : kgray),
+                                child: Text('1',
+                                    style: TextStyle(
+                                        color: kblack,
+                                        fontSize: 21,
+                                        fontWeight: FontWeight.w500))),
                           ),
                           InkWell(
                             onTap: () {
@@ -388,8 +427,14 @@ class _PlatformAlbumState extends State<PlatformAlbum> {
                                 alignment: Alignment.center,
                                 height: 30,
                                 width: 30,
-                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(100), color: attempt == 2 ? kliteblue : kgray),
-                                child: Text('2', style: TextStyle(color: kblack, fontSize: 21, fontWeight: FontWeight.w500))),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(100),
+                                    color: attempt == 2 ? kliteblue : kgray),
+                                child: Text('2',
+                                    style: TextStyle(
+                                        color: kblack,
+                                        fontSize: 21,
+                                        fontWeight: FontWeight.w500))),
                           ),
                           InkWell(
                             onTap: () {
@@ -403,8 +448,14 @@ class _PlatformAlbumState extends State<PlatformAlbum> {
                                 alignment: Alignment.center,
                                 height: 30,
                                 width: 30,
-                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(100), color: attempt == 3 ? kliteblue : kgray),
-                                child: Text('3', style: TextStyle(color: kblack, fontSize: 21, fontWeight: FontWeight.w500))),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(100),
+                                    color: attempt == 3 ? kliteblue : kgray),
+                                child: Text('3',
+                                    style: TextStyle(
+                                        color: kblack,
+                                        fontSize: 21,
+                                        fontWeight: FontWeight.w500))),
                           ),
                           InkWell(
                             onTap: () {
@@ -418,8 +469,14 @@ class _PlatformAlbumState extends State<PlatformAlbum> {
                                 alignment: Alignment.center,
                                 height: 30,
                                 width: 30,
-                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(100), color: attempt == 4 ? kliteblue : kgray),
-                                child: Text('4', style: TextStyle(color: kblack, fontSize: 21, fontWeight: FontWeight.w500))),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(100),
+                                    color: attempt == 4 ? kliteblue : kgray),
+                                child: Text('4',
+                                    style: TextStyle(
+                                        color: kblack,
+                                        fontSize: 21,
+                                        fontWeight: FontWeight.w500))),
                           ),
                           InkWell(
                             onTap: () {
@@ -433,8 +490,14 @@ class _PlatformAlbumState extends State<PlatformAlbum> {
                                 alignment: Alignment.center,
                                 height: 30,
                                 width: 30,
-                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(100), color: attempt == 5 ? kliteblue : kgray),
-                                child: Text('5', style: TextStyle(color: kblack, fontSize: 21, fontWeight: FontWeight.w500))),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(100),
+                                    color: attempt == 5 ? kliteblue : kgray),
+                                child: Text('5',
+                                    style: TextStyle(
+                                        color: kblack,
+                                        fontSize: 21,
+                                        fontWeight: FontWeight.w500))),
                           ),
                         ],
                       ),
@@ -446,13 +509,20 @@ class _PlatformAlbumState extends State<PlatformAlbum> {
                           alignment: Alignment.center,
                           height: 40,
                           width: 300,
-                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: kliteblue),
-                          child: Text('Save', style: TextStyle(color: kwhite, fontSize: 21, fontWeight: FontWeight.w500)),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: kliteblue),
+                          child: Text('Save',
+                              style: TextStyle(
+                                  color: kwhite,
+                                  fontSize: 21,
+                                  fontWeight: FontWeight.w500)),
                         ),
                         onPressed: () async {
                           int x = 5;
 
-                          if (_controller.text.isNotEmpty && _controller.text.length == 4) {
+                          if (_controller.text.isNotEmpty &&
+                              _controller.text.length == 4) {
                             if (_controller.text == _controller1.text) {
                               if (attempt > 0) {
                                 String path = '';
@@ -522,7 +592,8 @@ class _PlatformAlbumState extends State<PlatformAlbum> {
   }
 
   void delete(String path) async {
-    var deletepath = await sqlDb.deleteData('DELETE FROM itempassword WHERE path ="${widget.path}"');
+    var deletepath = await sqlDb
+        .deleteData('DELETE FROM itempassword WHERE path ="${widget.path}"');
     print(deletepath);
     setState(() {
       final dir = Directory(path);

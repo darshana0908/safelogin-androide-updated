@@ -33,7 +33,11 @@ class _SpacialNotesReadState extends State<SpacialNotesRead> {
   getToken() async {
     _isLoading = true;
     var url = Uri.http('207.244.230.39', '/mobileapp1/v1/generateaccesstoken');
-    var response = await http.post(url, body: {"grant_type": "client_credentials", "client_id": "test", "client_secret": "test123"});
+    var response = await http.post(url, body: {
+      "grant_type": "client_credentials",
+      "client_id": "test",
+      "client_secret": "test123"
+    });
     var myToken = jsonDecode(response.body);
     token = myToken['access_token'];
     log(myToken['access_token']);
@@ -43,10 +47,16 @@ class _SpacialNotesReadState extends State<SpacialNotesRead> {
 
   getMySpNotes() async {
     _isLoading = true;
-    var headers = {'Authorization': 'Bearer $token', 'Content-Type': 'application/x-www-form-urlencoded'};
+    var headers = {
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/x-www-form-urlencoded'
+    };
 
-    var fullUrl = Uri.parse('http://207.244.230.39/mobileapp1/v1/Fetching_results');
-    response = await http.post(fullUrl, headers: headers, body: {'random_num': _searchController.text.toString(), '': ''});
+    var fullUrl =
+        Uri.parse('http://207.244.230.39/mobileapp1/v1/Fetching_results');
+    response = await http.post(fullUrl,
+        headers: headers,
+        body: {'random_num': _searchController.text.toString(), '': ''});
 
     res = jsonDecode(response.body);
     // var pin = res[1].toString();
@@ -60,6 +70,7 @@ class _SpacialNotesReadState extends State<SpacialNotesRead> {
     if (res.isNotEmpty) {
       for (int index in Iterable.generate(res.length)) {
         var pin = res[index]['pin'];
+        log(pin);
         if (pin.toString().isNotEmpty) {
           _isLoading = true;
           enterpin(res, pin);
@@ -113,7 +124,8 @@ class _SpacialNotesReadState extends State<SpacialNotesRead> {
 
   internet() async {
     var connectivityResult = await (Connectivity().checkConnectivity());
-    if (connectivityResult == ConnectivityResult.mobile || connectivityResult == ConnectivityResult.wifi) {
+    if (connectivityResult == ConnectivityResult.mobile ||
+        connectivityResult == ConnectivityResult.wifi) {
       // I am connected to a mobile network.
     } else {
       Fluttertoast.showToast(
@@ -151,7 +163,8 @@ class _SpacialNotesReadState extends State<SpacialNotesRead> {
                             padding: const EdgeInsets.all(16.0),
                             child: TextField(
                               controller: _searchController,
-                              decoration: const InputDecoration(hintText: 'type your code'),
+                              decoration: const InputDecoration(
+                                  hintText: 'type your code'),
                             ),
                           ),
                         ),
@@ -162,7 +175,8 @@ class _SpacialNotesReadState extends State<SpacialNotesRead> {
                             width: 100,
                             height: 35,
                             color: kliteblue,
-                            child: Text('Search', style: TextStyle(color: kwhite)),
+                            child:
+                                Text('Search', style: TextStyle(color: kwhite)),
                           ),
                           onPressed: () async {
                             setState(() {
@@ -170,8 +184,11 @@ class _SpacialNotesReadState extends State<SpacialNotesRead> {
                               res = [];
                             });
 
-                            var connectivityResult = await (Connectivity().checkConnectivity());
-                            if (connectivityResult == ConnectivityResult.mobile || connectivityResult == ConnectivityResult.wifi) {
+                            var connectivityResult =
+                                await (Connectivity().checkConnectivity());
+                            if (connectivityResult ==
+                                    ConnectivityResult.mobile ||
+                                connectivityResult == ConnectivityResult.wifi) {
                               await getToken();
                             } else {
                               Fluttertoast.showToast(
@@ -222,7 +239,9 @@ class _SpacialNotesReadState extends State<SpacialNotesRead> {
                                       decoration: BoxDecoration(
                                           color: Colors.green[200],
                                           borderRadius: const BorderRadius.only(
-                                              topLeft: Radius.circular(40), bottomRight: Radius.circular(40), bottomLeft: Radius.circular(40))),
+                                              topLeft: Radius.circular(40),
+                                              bottomRight: Radius.circular(40),
+                                              bottomLeft: Radius.circular(40))),
                                       child: Container(
                                         alignment: Alignment.center,
                                         child: SingleChildScrollView(
@@ -231,16 +250,20 @@ class _SpacialNotesReadState extends State<SpacialNotesRead> {
                                             child: Column(
                                               children: [
                                                 Row(
-                                                  mainAxisAlignment: MainAxisAlignment.end,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.end,
                                                   children: [
                                                     Text(
                                                       '${res[index]['notes_name']}',
-                                                      style: const TextStyle(color: Color.fromARGB(255, 158, 49, 9)),
+                                                      style: const TextStyle(
+                                                          color: Color.fromARGB(
+                                                              255, 158, 49, 9)),
                                                     ),
                                                   ],
                                                 ),
                                                 Html(
-                                                  data: """   ${res[index]['notes_value']}
+                                                  data:
+                                                      """   ${res[index]['notes_value']}
                                                                         
                                                                         
                                                                         """,
@@ -254,9 +277,12 @@ class _SpacialNotesReadState extends State<SpacialNotesRead> {
                                   else
                                     Container(
                                       decoration: const BoxDecoration(
-                                          color: Color.fromARGB(255, 204, 215, 204),
+                                          color: Color.fromARGB(
+                                              255, 204, 215, 204),
                                           borderRadius: BorderRadius.only(
-                                              topRight: Radius.circular(60), bottomRight: Radius.circular(60), bottomLeft: Radius.circular(70))),
+                                              topRight: Radius.circular(60),
+                                              bottomRight: Radius.circular(60),
+                                              bottomLeft: Radius.circular(70))),
                                       child: Padding(
                                         padding: const EdgeInsets.all(16.0),
                                         child: Column(
@@ -265,12 +291,15 @@ class _SpacialNotesReadState extends State<SpacialNotesRead> {
                                               children: [
                                                 Text(
                                                   '${res[index]['notes_name']}',
-                                                  style: const TextStyle(color: Color.fromARGB(255, 158, 49, 9)),
+                                                  style: const TextStyle(
+                                                      color: Color.fromARGB(
+                                                          255, 158, 49, 9)),
                                                 ),
                                               ],
                                             ),
                                             Html(
-                                              data: """ ${res[index]['notes_value']}
+                                              data:
+                                                  """ ${res[index]['notes_value']}
                                                                    """,
                                             ),
                                           ],
@@ -303,62 +332,71 @@ class _SpacialNotesReadState extends State<SpacialNotesRead> {
               // backgroundColor: kdarkblue,
               // title: const Text('AlertDialog Title'),
               content: SingleChildScrollView(
-                  child: Column(mainAxisAlignment: MainAxisAlignment.end, crossAxisAlignment: CrossAxisAlignment.start, children: [
-            IconButton(
-                icon: const Icon(Icons.close),
-                onPressed: () {
-                  setState(() {
-                    my_user_id = 'm';
-                    // _searchController.clear();
-                    // _isLoading = false;
-                    res = [];
-                    print(res);
-                  });
-                  Navigator.pop(context);
-                }),
-            Column(children: [
-              const Text('Enter PassWord'),
-              TextField(
-                textAlign: TextAlign.center,
-                obscureText: true,
-                enableSuggestions: false,
-                autocorrect: false,
-                keyboardType: TextInputType.number,
-                controller: passwordController,
-                maxLength: 4,
-              ),
-              const SizedBox(
-                height: 50,
-              ),
-              TextButton(
-                  child: Container(
-                    alignment: Alignment.center,
-                    height: 40,
-                    width: 300,
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: kliteblue),
-                    child: Text('confirm', style: TextStyle(color: kwhite, fontSize: 21, fontWeight: FontWeight.w500)),
-                  ),
-                  onPressed: () {
-                    if (pin == passwordController.text) {
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                IconButton(
+                    icon: const Icon(Icons.close),
+                    onPressed: () {
                       setState(() {
-                        _isLoading = false;
-                        res;
+                        my_user_id = 'm';
+                        // _searchController.clear();
+                        // _isLoading = false;
+                        res = [];
+                        print(res);
                       });
                       Navigator.pop(context);
-                      passwordController.clear();
-                    } else {
-                      Fluttertoast.showToast(
-                          msg: "wrong password",
-                          toastLength: Toast.LENGTH_SHORT,
-                          gravity: ToastGravity.BOTTOM,
-                          timeInSecForIosWeb: 1,
-                          backgroundColor: Colors.redAccent,
-                          textColor: Colors.white,
-                          fontSize: 16.0);
-                    }
-                  })
-            ])
-          ])));
+                    }),
+                Column(children: [
+                  const Text('Enter PassWord'),
+                  TextField(
+                    textAlign: TextAlign.center,
+                    obscureText: true,
+                    enableSuggestions: false,
+                    autocorrect: false,
+                    keyboardType: TextInputType.number,
+                    controller: passwordController,
+                    maxLength: 4,
+                  ),
+                  const SizedBox(
+                    height: 50,
+                  ),
+                  TextButton(
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: 40,
+                        width: 300,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: kliteblue),
+                        child: Text('confirm',
+                            style: TextStyle(
+                                color: kwhite,
+                                fontSize: 21,
+                                fontWeight: FontWeight.w500)),
+                      ),
+                      onPressed: () {
+                        if (pin == passwordController.text) {
+                          setState(() {
+                            _isLoading = false;
+                            res;
+                          });
+                          Navigator.pop(context);
+                          passwordController.clear();
+                        } else {
+                          Fluttertoast.showToast(
+                              msg: "wrong password",
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.BOTTOM,
+                              timeInSecForIosWeb: 1,
+                              backgroundColor: Colors.redAccent,
+                              textColor: Colors.white,
+                              fontSize: 16.0);
+                        }
+                      })
+                ])
+              ])));
         });
   }
 }
