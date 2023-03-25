@@ -348,7 +348,7 @@ class _ReEnterPinState extends State<ReEnterPin> {
                                       widget.controler_pin.text) {
                                     createFolder(controler_re_enter_pin.text);
                                     // register(getmytocken);
-                                    await register();
+                                    // await register();
                                   } else {
                                     setState(() {
                                       newpin_nuber = false;
@@ -385,6 +385,7 @@ class _ReEnterPinState extends State<ReEnterPin> {
       if (Platform.isAndroid) {
         // request permission
         if (await requestPermission(Permission.storage)) {
+          log('ddddddddddd');
           // getting the phone directory
           directory = await getExternalStorageDirectory();
           log(directory!.path);

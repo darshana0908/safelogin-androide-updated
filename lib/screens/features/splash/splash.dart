@@ -35,7 +35,7 @@ class _splashState extends State<splash> {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     setState(() {
       var ownerlogin = sharedPreferences.getBool('ownerlogin');
-      if (ownerlogin == true) {
+      if (ownerlogin == false) {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const AppIcon()),

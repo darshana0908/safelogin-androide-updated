@@ -16,7 +16,12 @@ class CustomDrawer extends StatefulWidget {
   final String pinNumber;
   final bool takinphoto;
   final Function getbool;
-  const CustomDrawer({Key? key, required this.pinNumber, required this.takinphoto, required this.getbool}) : super(key: key);
+  const CustomDrawer(
+      {Key? key,
+      required this.pinNumber,
+      required this.takinphoto,
+      required this.getbool})
+      : super(key: key);
 
   @override
   State<CustomDrawer> createState() => _CustomDrawerState();
@@ -41,7 +46,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
 
   loadImage() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    var imageName = sharedPreferences.getString('profileImage-${widget.pinNumber}');
+    var imageName =
+        sharedPreferences.getString('profileImage-${widget.pinNumber}');
 
     setState(() {
       finalImage = imageName.toString();
@@ -65,7 +71,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
         padding: const EdgeInsets.all(0),
         children: [
           DrawerHeader(
-              decoration: BoxDecoration(backgroundBlendMode: BlendMode.darken, color: kindigo),
+              decoration: BoxDecoration(
+                  backgroundBlendMode: BlendMode.darken, color: kindigo),
               //BoxDecoration
               child: InkWell(
                 onTap: () {
@@ -78,13 +85,18 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 child: Center(
                   child: Stack(
                     children: [
-                      if (finalImage.isNotEmpty)
-                        CircleAvatar(foregroundImage: FileImage(File(finalImage.toString())), radius: 80)
-                      else
-                        isloding
-                            ? const CupertinoActivityIndicator()
-                            : CircleAvatar(backgroundColor: kblack, radius: 80, child: Image(image: AssetImage('assets/ic.JPG'))),
-                      const Positioned(bottom: 20, right: 20, child: Icon(Icons.camera_alt, size: 28, color: Colors.deepPurple)),
+                      CircleAvatar(
+                        radius: 80,
+                        backgroundImage: AssetImage('assets/ic.JPG'),
+                        foregroundImage: finalImage != null
+                            ? FileImage(File(finalImage.toString()))
+                            : null,
+                      ),
+                      const Positioned(
+                          bottom: 20,
+                          right: 20,
+                          child: Icon(Icons.camera_alt,
+                              size: 28, color: Colors.deepPurple)),
                     ],
                   ),
                 ),
@@ -94,7 +106,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
             leading: const Icon(Icons.create),
             title: const Text(' Create New Vault'),
             onTap: () {
-              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => const FirstPinNumber()), (Route<dynamic> route) => false);
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (_) => const FirstPinNumber()),
+                  (Route<dynamic> route) => false);
               // Navigator.push(context, MaterialPageRoute(builder: (context) => const FirstPinNumber()));
             },
           ),
@@ -102,7 +117,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
             leading: const Icon(Icons.login),
             title: const Text(' New Vault Login'),
             onTap: () {
-              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => const AppIcon()), (Route<dynamic> route) => false);
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (_) => const AppIcon()),
+                  (Route<dynamic> route) => false);
             },
           ),
           ListTile(
@@ -125,15 +143,18 @@ class _CustomDrawerState extends State<CustomDrawer> {
     if (image != null) {
       if (Platform.isAndroid) {
         print('cccccccccccccccccccccccccccccccccccccccccccccccccccccc');
-        String imgPath = '/storage/emulated/0/Android/data/com.example.safe_encrypt/files/safe/app/new/';
+        String imgPath =
+            '/storage/emulated/0/Android/data/com.example.safe_encrypt/files/safe/app/new/';
         fileType = path.extension(image.path);
 
         imgName = "Cam-IMG ${DateTime.now()}$fileType";
         File fileToSave = File(image.path);
         fileToSave.copy('$imgPath${widget.pinNumber}/$imgName');
 
-        SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-        sharedPreferences.setString('profileImage-${widget.pinNumber}', '$imgPath${widget.pinNumber}/$imgName');
+        SharedPreferences sharedPreferences =
+            await SharedPreferences.getInstance();
+        sharedPreferences.setString('profileImage-${widget.pinNumber}',
+            '$imgPath${widget.pinNumber}/$imgName');
 
         // var value = sharedPreferences.getString('profileImage-${widget.pinNumber}');
         // log(value.toString());
@@ -158,7 +179,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
         var iosimg = '$iospath/safe/app/new/${widget.pinNumber}/$imgName';
         fileToSave.copy(iosimg);
 
-        SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+        SharedPreferences sharedPreferences =
+            await SharedPreferences.getInstance();
         sharedPreferences.setString('profileImage-${widget.pinNumber}', iosimg);
 
         // var value = sharedPreferences.getString('profileImage-${widget.pinNumber}');

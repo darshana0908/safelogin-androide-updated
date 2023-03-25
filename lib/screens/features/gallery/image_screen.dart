@@ -119,7 +119,9 @@ class _ImageScreenState extends State<ImageScreen>
 
     var imageName =
         sharedPreferences.getString('foldername-${widget.title}-${widget.pin}');
+    log(imageName.toString() + 'jhggggggg');
     if (coverimgpath == true) {
+      finalImage = imageName.toString();
       setState(() {
         uploadimgpath = true;
         log(uploadimgpath.toString());
@@ -127,6 +129,7 @@ class _ImageScreenState extends State<ImageScreen>
     } else {
       log(uploadimgpath.toString());
       setState(() {
+        finalImage = imageName.toString();
         uploadimgpath = false;
       });
     }
@@ -206,20 +209,17 @@ class _ImageScreenState extends State<ImageScreen>
                             expandedTitleScale: 50,
                             background: SizedBox(
                               height: 650,
-                              child: imgload
-                                  ? const CupertinoActivityIndicator()
-                                  : SizedBox(
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.27,
-                                      child: uploadimgpath
-                                          ? Image.file(
-                                              File(finalImage),
-                                              fit: BoxFit.cover,
-                                            )
-                                          : Image.asset(finalImage,
-                                              fit: BoxFit.cover),
-                                    ),
+                              child: SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.27,
+                                child: uploadimgpath
+                                    ? Image.file(
+                                        File(finalImage),
+                                        fit: BoxFit.cover,
+                                      )
+                                    : Image.asset(finalImage,
+                                        fit: BoxFit.cover),
+                              ),
                             )),
                       ),
                       title: SizedBox(
