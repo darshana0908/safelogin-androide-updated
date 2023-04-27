@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:safe_encrypt/constants/colors.dart';
@@ -55,44 +56,7 @@ class _PermissionScreenState extends State<PermissionScreen> {
             const SizedBox(height: 25),
             InkWell(
               onTap: () async {
-                // if (await _requestPermission(Permission.storage)) {
-                //   Navigator.push(
-                //       context,
-                //       MaterialPageRoute(
-                //           builder: (context) => const AuthScreen()));
-                //   // Either the permission was already granted before or the user just granted it.
-                // }
-
-                // // You can request multiple permissions at once.
-                // Map<Permission, PermissionStatus> statuses = await [
-                //   Permission.location,
-                //   Permission.storage,
-                // ].request();
-                // var status = await Permission.storage.status;
-                // if (status.isGranted) {
-                //   // You can request multiple permissions at once.
-                //   Map<Permission, PermissionStatus> statuses = await [
-                //     Permission.storage,
-                //     Permission.camera,
-                //   ].request();
-                //   print(statuses[Permission
-                //       .storage]); // it should print PermissionStatus.granted
-                // }
-                // var status = await Permission.storage.status;
-                // if (status.isGranted) {
-                //   // You can request multiple permissions at once.
-                //   Map<Permission, PermissionStatus> statuses = await [
-                //     Permission.storage,
-                //     Permission.camera,
-                //   ].request();
-                //   print(statuses[Permission
-                //       .storage]); // it should print PermissionStatus.granted
-                // }
-                // if (Platform.isAndroid) {
-                //   var status = await Permission.photos.status;
-                //   log('fffffffffffffff');
-                if (await requestPermission(Permission.storage)) {
-                  log('ggggdd');
+                if (await _requestPermission(Permission.storage)) {
                   // await createFolder(realFolder);
 
                   Navigator.push(
@@ -100,8 +64,7 @@ class _PermissionScreenState extends State<PermissionScreen> {
                       MaterialPageRoute(
                           builder: (context) => const AuthScreen()));
                   // Either the permission was already granted before or the user just granted it.
-                } else {
-                  log('ffffffff');
+
                 }
               },
               child: Container(
@@ -140,6 +103,19 @@ class _PermissionScreenState extends State<PermissionScreen> {
       } else {
         return false;
       }
+    }
+  }
+
+  Future<bool> checkPermission() async {
+    ///For Check permission..
+    if (Platform.isAndroid
+        ? !await requestPermission(Permission.storage) &&
+            !await requestPermission(Permission.manageExternalStorage)
+        : !await requestPermission(Permission.storage)) {
+      log('hhhhh');
+      return false;
+    } else {
+      return true;
     }
   }
 }

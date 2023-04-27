@@ -68,50 +68,6 @@ class _MyNotePrevewState extends State<MyNotePrevew> {
             child: SingleChildScrollView(
                 scrollDirection: Axis.vertical,
                 child: Text(widget.textfilename))),
-        actions: [
-          // IconButton(
-          //   icon: const Icon(Icons.edit),
-          //   onPressed: () {
-          //     setState(() {
-          //       editble = false;
-          //     });
-          //   },
-          // ),
-          // IconButton(
-          //   icon: const Icon(Icons.save_alt),
-          //   onPressed: () async {
-          //     // Share.shareFiles(['${widget.path}/$textFileName'], text: 'Great picture');
-          //     log('${widget.path}/$textFileName');
-          //     var response = await sqlDb.updateData(
-          //         "UPDATE notes SET textvalue ='${controler.text}' WHERE text ='${widget.text}';");
-          //     setState(() {
-          //       widget.loading();
-
-          //       // editble = true;
-          //     });
-
-          //     Navigator.pop(context, true);
-          //     Fluttertoast.showToast(
-          //         msg: "  File updated",
-          //         toastLength: Toast.LENGTH_SHORT,
-          //         gravity: ToastGravity.BOTTOM,
-          //         timeInSecForIosWeb: 1,
-          //         backgroundColor: Colors.lightGreen,
-          //         textColor: Colors.white,
-          //         fontSize: 16.0);
-          //   },
-          // ),
-          // IconButton(
-          //   icon: const Icon(Icons.share),
-          //   onPressed: () async {
-          //     _write(controler.text);
-          //     await Share.shareFiles(['${widget.path}/$textFileName'], text: 'Great picture');
-
-          //     log(textFileName);
-          //     delete('${widget.path}/$textFileName');
-          //   },
-          // )
-        ],
       ),
       body: SingleChildScrollView(
         child: Column(children: [
@@ -119,35 +75,56 @@ class _MyNotePrevewState extends State<MyNotePrevew> {
             padding: const EdgeInsets.all(8.0),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                  // onSubmitted: (value) {
-                  //   log(value);
-                  // },
-                  onChanged: (value) {
-                    if (value != null) {
-                      log('hhh');
-                    } else {
-                      log("nnn");
-                    }
-                    log(value);
-                  },
-                  decoration: const InputDecoration(),
-                  controller: controler,
-                  maxLines: 30),
+              child: Container(
+                child: TextField(
+                    onSubmitted: (value) async {
+                      widget.loading();
+                      log('${widget.path}/$textFileName');
+                      var response = await sqlDb.updateData(
+                          "UPDATE notes SET textvalue ='${controler.text}' WHERE text ='${widget.text}';");
+                      setState(() {
+                        widget.loading();
+                        log('ggggggggg');
+                      });
+
+                      Fluttertoast.showToast(
+                          msg: "  File updated",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.BOTTOM,
+                          timeInSecForIosWeb: 1,
+                          backgroundColor: Colors.lightGreen,
+                          textColor: Colors.white,
+                          fontSize: 16.0);
+                    },
+                    // onSubmitted: (value) {
+                    //   log(value);
+                    // },
+                    onChanged: (value) {
+                      if (value != null) {
+                        log('hhh');
+                      } else {
+                        log("nnn");
+                      }
+                      log(value);
+                      value = controler.text + value;
+                    },
+                    decoration: const InputDecoration(),
+                    controller: controler,
+                    maxLines: 30),
+              ),
             ),
           ),
           TextButton(
             onPressed: () async {
+              widget.loading();
               log('${widget.path}/$textFileName');
               var response = await sqlDb.updateData(
                   "UPDATE notes SET textvalue ='${controler.text}' WHERE text ='${widget.text}';");
               setState(() {
                 widget.loading();
-
-                // editble = true;
+                log('ggggggggg');
               });
-
-              Navigator.pop(context, true);
+              Navigator.pop(context);
               Fluttertoast.showToast(
                   msg: "  File updated",
                   toastLength: Toast.LENGTH_SHORT,

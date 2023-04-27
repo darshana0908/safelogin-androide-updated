@@ -19,6 +19,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../utils/helper_methods.dart';
 import '../settings/settings.dart';
 import 'components/glalery_folder.dart';
+import 'help_and_support/help_and_support.dart';
 import 'image_screen.dart';
 import 'dart:convert';
 
@@ -27,7 +28,8 @@ class GalleryHome extends StatefulWidget {
   final bool isFake;
 
   final String pinNumber;
-  const GalleryHome({Key? key, this.isFake = false, required this.pinNumber}) : super(key: key);
+  const GalleryHome({Key? key, this.isFake = false, required this.pinNumber})
+      : super(key: key);
 
   @override
   State<GalleryHome> createState() => _GalleryHomeState();
@@ -113,7 +115,10 @@ class _GalleryHomeState extends State<GalleryHome> with WidgetsBindingObserver {
         setState(() {
           takingPhoto = false;
         });
-        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => const AppIcon()), (Route<dynamic> route) => false);
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (_) => const AppIcon()),
+            (Route<dynamic> route) => false);
       }
     }
   }
@@ -140,7 +145,7 @@ class _GalleryHomeState extends State<GalleryHome> with WidgetsBindingObserver {
     return GestureDetector(
       child: WillPopScope(
         onWillPop: () async {
-          Navigator.pop(context);
+          exit(0);
           return true;
         },
         child: Scaffold(
@@ -151,7 +156,8 @@ class _GalleryHomeState extends State<GalleryHome> with WidgetsBindingObserver {
               height: 80,
             ),
           ),
-          floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
           floatingActionButton: Padding(
             padding: const EdgeInsets.only(bottom: 1),
             child: SpeedDial(
@@ -169,34 +175,39 @@ class _GalleryHomeState extends State<GalleryHome> with WidgetsBindingObserver {
               icon: Icons.add,
               children: [
                 SpeedDialChild(
-                  child: Icon(Icons.add_to_photos_rounded, color: kwhite, size: 30),
+                  child: Icon(Icons.add_to_photos_rounded,
+                      color: kwhite, size: 30),
                   labelWidget: const Padding(
                     padding: EdgeInsets.only(right: 20),
-                    child: Text('album', style: TextStyle(color: Colors.teal, fontSize: 22, fontWeight: FontWeight.w500)),
+                    child: Text('Folder',
+                        style: TextStyle(
+                            color: Colors.teal,
+                            fontSize: 22,
+                            fontWeight: FontWeight.w500)),
                   ),
                   elevation: 200,
                   backgroundColor: Colors.greenAccent,
                   onTap: () async => showCreateFolderDialog(context),
                 ),
-                SpeedDialChild(
-                  child: const Icon(Icons.note_alt, color: Colors.black, size: 30),
-                  labelWidget: const Padding(
-                    padding: EdgeInsets.only(right: 20),
-                    child: Text('notes ', style: TextStyle(color: Colors.teal, fontSize: 22, fontWeight: FontWeight.w500)),
-                  ),
-                  elevation: 200,
-                  backgroundColor: Colors.yellow,
-                  onTap: () async {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => SpacialNotesMain(
-                                pin: widget.pinNumber,
-                                getbool: getbool,
-                              )),
-                    );
-                  },
-                )
+                // SpeedDialChild(
+                //   child: const Icon(Icons.note_alt, color: Colors.black, size: 30),
+                //   labelWidget: const Padding(
+                //     padding: EdgeInsets.only(right: 20),
+                //     child: Text('notes ', style: TextStyle(color: Colors.teal, fontSize: 22, fontWeight: FontWeight.w500)),
+                //   ),
+                //   elevation: 200,
+                //   backgroundColor: Colors.yellow,
+                //   onTap: () async {
+                //     Navigator.push(
+                //       context,
+                //       MaterialPageRoute(
+                //           builder: (_) => SpacialNotesMain(
+                //                 pin: widget.pinNumber,
+                //                 getbool: getbool,
+                //               )),
+                //     );
+                //   },
+                // )
               ],
             ),
           ),
@@ -216,16 +227,29 @@ class _GalleryHomeState extends State<GalleryHome> with WidgetsBindingObserver {
                             alignment: Alignment.topLeft,
                             child: TextButton(
                               autofocus: true,
-                              child: Text('Settings', style: TextStyle(color: kblack, fontSize: 17)),
-                              onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const Settings())),
+                              child: Text('Settings',
+                                  style:
+                                      TextStyle(color: kblack, fontSize: 17)),
+                              onPressed: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const Settings())),
                             ),
                           ),
                           Container(
                             alignment: Alignment.topLeft,
                             child: TextButton(
                               autofocus: true,
-                              child: Text('Help', style: TextStyle(color: kblack, fontSize: 17)),
-                              onPressed: () {},
+                              child: Text('Help',
+                                  style:
+                                      TextStyle(color: kblack, fontSize: 17)),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => const HelpSupportPage()),
+                                );
+                              },
                             ),
                           ),
                         ],
@@ -244,7 +268,10 @@ class _GalleryHomeState extends State<GalleryHome> with WidgetsBindingObserver {
           body: GridView.builder(
               // itemCount: myfolderlist.length,
               itemCount: myfolderlist.length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, crossAxisSpacing: 4.0, mainAxisSpacing: 4.0),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 4.0,
+                  mainAxisSpacing: 4.0),
               itemBuilder: (BuildContext context, index) {
                 // oneEntity = folderList[index].toString();
                 // folderName = oneEntity.split('/').last.replaceAll("'", '');
@@ -280,8 +307,9 @@ class _GalleryHomeState extends State<GalleryHome> with WidgetsBindingObserver {
                           ),
                         );
                       } else {
-                        var titlepath = myfolderlist[index]['password'].toString();
-                        create_pasward_dialog(index, titlepath);
+                        var titlepath =
+                            myfolderlist[index]['password'].toString();
+                        pasward_dialog(index, titlepath);
                       }
                     });
               }),
@@ -303,7 +331,10 @@ class _GalleryHomeState extends State<GalleryHome> with WidgetsBindingObserver {
               height: 270,
               padding: const EdgeInsets.all(20),
               child: Column(mainAxisSize: MainAxisSize.min, children: [
-                TextField(maxLength: 30, controller: _folderName, decoration: const InputDecoration(hintText: 'Folder name')),
+                TextField(
+                    maxLength: 30,
+                    controller: _folderName,
+                    decoration: const InputDecoration(hintText: 'Folder Name')),
                 const SizedBox(height: 100),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -313,7 +344,9 @@ class _GalleryHomeState extends State<GalleryHome> with WidgetsBindingObserver {
                         child: Container(
                             height: 40,
                             width: 150,
-                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: const Color.fromARGB(255, 89, 179, 92)),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: const Color.fromARGB(255, 89, 179, 92)),
                             alignment: Alignment.center,
                             child: Text(
                               'CANCEL',
@@ -343,7 +376,9 @@ class _GalleryHomeState extends State<GalleryHome> with WidgetsBindingObserver {
                             height: 40,
                             width: 130,
                             alignment: Alignment.center,
-                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: kliteblue),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: kliteblue),
                             child: Text(
                               'CREATE',
                               style: TextStyle(color: kwhite),
@@ -357,7 +392,8 @@ class _GalleryHomeState extends State<GalleryHome> with WidgetsBindingObserver {
   }
 
   itemtlist() async {
-    myfolderlist = await sqlDb.readData('SELECT  * FROM itempassword WHERE userpin = ${widget.pinNumber}');
+    myfolderlist = await sqlDb.readData(
+        'SELECT  * FROM itempassword WHERE userpin = ${widget.pinNumber}');
     log(myfolderlist.toString());
     // log(myfolderlist[1]['folder-id'].toString());
     setState(() {
@@ -365,26 +401,13 @@ class _GalleryHomeState extends State<GalleryHome> with WidgetsBindingObserver {
     });
   }
 
-  // load app folders
-  // getFolderList() async {
-  //   final Directory directoryi = Directory('/storage/emulated/0/Android/data/com.example.safe_encrypt/files/safe/app/new/${widget.pinNumber}');
-
-  //   log(directoryi.toString());
-
-  //   folderList = directoryi.listSync(followLinks: true);
-  //   folderList.removeWhere((item) => item.runtimeType.toString() == '_File');
-  //   setState(() {
-  //     log(imageName.toString());
-  //     finalImage = imageName.toString();
-  //     folderList;
-  //   });
-  // }
-
   MyPlatformePath() async {
     if (Platform.isAndroid) {
       setState(() {
-        directory = Directory('/storage/emulated/0/Android/data/com.example.safe_encrypt/files/safe/app/new/${widget.pinNumber}');
-        platformPath = '/storage/emulated/0/Android/data/com.example.safe_encrypt/files/safe/app/new/';
+        directory = Directory(
+            '/storage/emulated/0/Android/data/com.example.safe_encrypt/files/safe/app/new/${widget.pinNumber}');
+        platformPath =
+            '/storage/emulated/0/Android/data/com.example.safe_encrypt/files/safe/app/new/';
       });
     } else {
       var ios = await getApplicationSupportDirectory();
@@ -400,7 +423,8 @@ class _GalleryHomeState extends State<GalleryHome> with WidgetsBindingObserver {
   // creating folders
   Future<bool> createFolder(String newFolderName) async {
     try {
-      directory = Directory('/storage/emulated/0/Android/data/com.example.safe_encrypt/files');
+      directory = Directory(
+          '/storage/emulated/0/Android/data/com.example.safe_encrypt/files');
       // checks if android
       if (Platform.isAndroid) {
         // request permission
@@ -418,7 +442,8 @@ class _GalleryHomeState extends State<GalleryHome> with WidgetsBindingObserver {
             newPath += "/$folder";
           }
 
-          newPath = "$newPath/safe/app/new/${widget.pinNumber}/$newFolderName"; // new directory
+          newPath =
+              "$newPath/safe/app/new/${widget.pinNumber}/$newFolderName"; // new directory
 
           directory = Directory(newPath);
           log(directory!.path);
@@ -427,7 +452,7 @@ class _GalleryHomeState extends State<GalleryHome> with WidgetsBindingObserver {
         }
       } else {
         // if iOS
-        log("dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd");
+
         var status = await Permission.storage.status;
 
         // if iOS
@@ -462,8 +487,10 @@ class _GalleryHomeState extends State<GalleryHome> with WidgetsBindingObserver {
         var response = await sqlDb.insertData(
             "INSERT INTO itempassword ('folderid','path','password','userpin','imagename','status','attempts') VALUES('$newFolderName','$newPath','null','${widget.pinNumber}','$assets','1','3')");
         print(response);
-        SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-        await sharedPreferences.setString('foldername-$newFolderName-${widget.pinNumber}', assets);
+        SharedPreferences sharedPreferences =
+            await SharedPreferences.getInstance();
+        await sharedPreferences.setString(
+            'foldername-$newFolderName-${widget.pinNumber}', assets);
         // getFolderList();
         setState(() {
           itemtlist();
@@ -481,15 +508,12 @@ class _GalleryHomeState extends State<GalleryHome> with WidgetsBindingObserver {
           btnOkOnPress: () async {
             debugPrint('Continue');
 
-            setState(() {
-              requestPermission(Permission.storage);
-
-              Navigator.pop(context, true);
-            });
+            // Navigator.pop(context);
           },
           btnOkIcon: Icons.check_circle,
           onDismissCallback: (type) async {
             debugPrint('Dialog Dismiss from callback $type');
+            Navigator.pop(context);
           },
         ).show();
         print(response);
@@ -507,11 +531,9 @@ class _GalleryHomeState extends State<GalleryHome> with WidgetsBindingObserver {
           btnOkColor: Colors.redAccent,
           btnOkOnPress: () async {
             debugPrint('Continue');
-
+            Navigator.pop(context, true);
             setState(() {
               requestPermission(Permission.storage);
-
-              Navigator.pop(context, true);
             });
           },
           btnOkIcon: Icons.check_circle,
@@ -539,7 +561,7 @@ class _GalleryHomeState extends State<GalleryHome> with WidgetsBindingObserver {
     dir.deleteSync(recursive: true);
   }
 
-  Future<void> create_pasward_dialog(index, titelpath) async {
+  Future<void> pasward_dialog(index, titelpath) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -561,6 +583,7 @@ class _GalleryHomeState extends State<GalleryHome> with WidgetsBindingObserver {
                 children: [
                   const Text('Enter PassWord'),
                   TextField(
+                    maxLength: 4,
                     textAlign: TextAlign.center,
                     obscureText: true,
                     enableSuggestions: false,
@@ -576,16 +599,23 @@ class _GalleryHomeState extends State<GalleryHome> with WidgetsBindingObserver {
                       alignment: Alignment.center,
                       height: 40,
                       width: 300,
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: kliteblue),
-                      child: Text('confirm', style: TextStyle(color: kwhite, fontSize: 21, fontWeight: FontWeight.w500)),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: kliteblue),
+                      child: Text('confirm',
+                          style: TextStyle(
+                              color: kwhite,
+                              fontSize: 21,
+                              fontWeight: FontWeight.w500)),
                     ),
                     onPressed: () async {
                       log(myfolderlist[index]['password'].toString());
 
                       print(widget.title);
-                      if (myfolderlist[index]['password'].toString() == _controler.text) {
-                        var response =
-                            await sqlDb.updateData("UPDATE itempassword SET Status ='1' WHERE path ='${myfolderlist[index]['path'].toString()}';");
+                      if (myfolderlist[index]['password'].toString() ==
+                          _controler.text) {
+                        var response = await sqlDb.updateData(
+                            "UPDATE itempassword SET Status ='1' WHERE path ='${myfolderlist[index]['path'].toString()}';");
                         setState(() {
                           itemtlist();
                           myfolderlist;
@@ -606,27 +636,25 @@ class _GalleryHomeState extends State<GalleryHome> with WidgetsBindingObserver {
                         _controler.clear();
                       } else {
                         if (_controler.text.isNotEmpty) {
-                          if (myfolderlist[index]['status'].toString() != myfolderlist[index]['attempts'].toString() &&
+                          if (myfolderlist[index]['status'].toString() !=
+                                  myfolderlist[index]['attempts'].toString() &&
                               myfolderlist[index]['status'].toString() == '1') {
-                            String msg = "you have entered  wrong password 1 time";
+                            String msg =
+                                "you have entered  wrong password 1 time";
                             _showMessage(msg);
-                            var response = await sqlDb
-                                .updateData("UPDATE itempassword SET Status ='2' WHERE path ='${myfolderlist[index]['path'].toString()}';");
+                            var response = await sqlDb.updateData(
+                                "UPDATE itempassword SET Status ='2' WHERE path ='${myfolderlist[index]['path'].toString()}';");
                             setState(() {
                               itemtlist();
                               myfolderlist;
                               _controler.clear();
                             });
-                          } else if (myfolderlist[index]['status'].toString() == myfolderlist[index]['attempts'].toString()) {
-                            String msg = "Warning ! you have entered wrong password many times .\nthis folder will be deleted";
-                            _showMessage(msg);
-                            var path = myfolderlist[index]['path'].toString();
-                            foldetdelete(path);
-                            _controler.clear();
                           }
-                          if (myfolderlist[index]['status'].toString() != myfolderlist[index]['attempts'].toString() &&
+                          if (myfolderlist[index]['status'].toString() !=
+                                  myfolderlist[index]['attempts'].toString() &&
                               myfolderlist[index]['status'].toString() == '2') {
-                            String msg = "you have entered  wrong password 2 time";
+                            String msg =
+                                "you have entered  wrong password 2 time";
                             _showMessage(msg);
                             setState(() {
                               itemtlist();
@@ -634,66 +662,68 @@ class _GalleryHomeState extends State<GalleryHome> with WidgetsBindingObserver {
                               _controler.clear();
                             });
 
-                            var response = await sqlDb
-                                .updateData("UPDATE itempassword SET Status ='3' WHERE path ='${myfolderlist[index]['path'].toString()}';");
-                          } else if (myfolderlist[index]['status'].toString() == myfolderlist[index]['attempts'].toString()) {
-                            String msg = "Warning ! you have entered wrong password many times .\nthis folder will be deleted";
-                            _showMessage(msg);
-                            var path = myfolderlist[index]['path'].toString();
-                            foldetdelete(path);
-                            _controler.clear();
+                            var response = await sqlDb.updateData(
+                                "UPDATE itempassword SET Status ='3' WHERE path ='${myfolderlist[index]['path'].toString()}';");
                           }
-                          if (myfolderlist[index]['status'].toString() != myfolderlist[index]['attempts'].toString() &&
+                          if (myfolderlist[index]['status'].toString() !=
+                                  myfolderlist[index]['attempts'].toString() &&
                               myfolderlist[index]['status'].toString() == '3') {
-                            String msg = "you have entered  wrong password 3 time";
+                            String msg =
+                                "you have entered  wrong password 3 time";
                             _showMessage(msg);
                             setState(() {
                               itemtlist();
                               myfolderlist;
                               _controler.clear();
                             });
-                            var response = await sqlDb
-                                .updateData("UPDATE itempassword SET Status ='4' WHERE path ='${myfolderlist[index]['path'].toString()}';");
-                          } else if (myfolderlist[index]['status'].toString() == myfolderlist[index]['attempts'].toString()) {
-                            String msg = "Warning ! you have entered wrong password many times .\nthis folder will be deleted";
-                            _showMessage(msg);
-                            var path = myfolderlist[index]['path'].toString();
-                            foldetdelete(path);
-                            _controler.clear();
+                            var response = await sqlDb.updateData(
+                                "UPDATE itempassword SET Status ='4' WHERE path ='${myfolderlist[index]['path'].toString()}';");
                           }
-                          if (myfolderlist[index]['status'].toString() != myfolderlist[index]['attempts'].toString() &&
+                          if (myfolderlist[index]['status'].toString() !=
+                                  myfolderlist[index]['attempts'].toString() &&
                               myfolderlist[index]['status'].toString() == '4') {
-                            String msg = "you have entered  wrong password 4 time";
+                            String msg =
+                                "you have entered  wrong password 4 time";
                             _showMessage(msg);
                             setState(() {
                               itemtlist();
                               myfolderlist;
                               _controler.clear();
                             });
-                            var response = await sqlDb
-                                .updateData("UPDATE itempassword SET Status ='5' WHERE path ='${myfolderlist[index]['path'].toString()}';");
-                          } else if (myfolderlist[index]['status'].toString() == myfolderlist[index]['attempts'].toString()) {
-                            String msg = "Warning ! you have entered wrong password many times .\nthis folder will be deleted";
+                            var response = await sqlDb.updateData(
+                                "UPDATE itempassword SET Status ='5' WHERE path ='${myfolderlist[index]['path'].toString()}';");
+                          }
+                          if (myfolderlist[index]['status'].toString() !=
+                                  myfolderlist[index]['attempts'].toString() &&
+                              myfolderlist[index]['status'].toString() == '5') {
+                            String msg =
+                                "you have entered  wrong password 5 time";
                             _showMessage(msg);
-                            var path = myfolderlist[index]['path'].toString();
-                            foldetdelete(path);
+                            setState(() {
+                              itemtlist();
+                              myfolderlist;
+                              _controler.clear();
+                            });
+                          }
+                          if (myfolderlist[index]['status'].toString() ==
+                              myfolderlist[index]['attempts'].toString()) {
+                            int x = myfolderlist[index]['status'] + 1;
+                            log(myfolderlist[index]['status'].toString());
+                            log(x.toString());
+                            String msg =
+                                "Warning ! you have entered wrong password many times .\nthis folder will be deleted";
+                            var response = await sqlDb.updateData(
+                                "UPDATE itempassword SET Status ='${x.toString()}' WHERE path ='${myfolderlist[index]['path'].toString()}';");
+                            itemtlist();
+                            _showMessage(msg);
+
                             _controler.clear();
                           }
-                          if (myfolderlist[index]['status'].toString() != myfolderlist[index]['attempts'].toString() &&
-                              myfolderlist[index]['status'].toString() == '5') {
-                            String msg = "you have entered  wrong password 5 time";
-                            _showMessage(msg);
-                            setState(() {
-                              itemtlist();
-                              myfolderlist;
-                              _controler.clear();
-                            });
-                          } else if (myfolderlist[index]['status'].toString() == myfolderlist[index]['attempts'].toString()) {
-                            String msg = "Warning ! you have entered wrong password many times .\nthis folder will be deleted";
-                            _showMessage(msg);
+                          if (myfolderlist[index]['status'] >
+                              myfolderlist[index]['attempts']) {
                             var path = myfolderlist[index]['path'].toString();
                             foldetdelete(path);
-                            _controler.clear();
+                            log('bbbbbbbbbbbbbbbbbbb');
                           }
                         } else {
                           String msg = "Please enter valid password";
@@ -734,7 +764,8 @@ class _GalleryHomeState extends State<GalleryHome> with WidgetsBindingObserver {
               content: Text(message),
               primaryAction: TextButton(
                 onPressed: () => controller.dismiss(),
-                child: const Text('DISMISS', style: TextStyle(color: Colors.amber)),
+                child: const Text('DISMISS',
+                    style: TextStyle(color: Colors.amber)),
               ),
             ),
           );
@@ -742,7 +773,8 @@ class _GalleryHomeState extends State<GalleryHome> with WidgetsBindingObserver {
   }
 
   void foldetdelete(String path) async {
-    var deletepath = await sqlDb.deleteData('DELETE FROM itempassword WHERE path ="$path"');
+    var deletepath =
+        await sqlDb.deleteData('DELETE FROM itempassword WHERE path ="$path"');
     print(deletepath);
     setState(() {
       itemtlist();

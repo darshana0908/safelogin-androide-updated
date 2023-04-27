@@ -346,7 +346,8 @@ class _ReEnterPinState extends State<ReEnterPin> {
                                 onPressed: () async {
                                   if (controler_re_enter_pin.text ==
                                       widget.controler_pin.text) {
-                                    createFolder(controler_re_enter_pin.text);
+                                    await createFolder(
+                                        controler_re_enter_pin.text);
                                     // register(getmytocken);
                                     // await register();
                                   } else {
@@ -383,6 +384,7 @@ class _ReEnterPinState extends State<ReEnterPin> {
           '/storage/emulated/0/Android/data/com.example.safe_encrypt/files');
       // checks if android
       if (Platform.isAndroid) {
+        log('hhh');
         // request permission
         if (await requestPermission(Permission.storage)) {
           log('ddddddddddd');

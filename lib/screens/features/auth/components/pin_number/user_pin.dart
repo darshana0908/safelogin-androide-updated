@@ -268,17 +268,18 @@ class _UserPInState extends State<UserPIn> {
                                       bool fileExists =
                                           await File(path).exists();
                                       if (directoryExists || fileExists) {
-                                        await Navigator.push(
+                                        await Navigator.pushAndRemoveUntil(
                                             context,
                                             MaterialPageRoute(
-                                              builder: (context) => GalleryHome(
-                                                  pinNumber:
-                                                      controler_re_enter_pin
-                                                          .text),
-                                            ));
+                                                builder: (_) => GalleryHome(
+                                                    pinNumber:
+                                                        controler_re_enter_pin
+                                                            .text)),
+                                            (Route<dynamic> route) => false);
                                       } else {
                                         setState(() {
                                           confirm_pin = false;
+                                          controler_re_enter_pin.clear();
                                         });
                                       }
                                     } else {

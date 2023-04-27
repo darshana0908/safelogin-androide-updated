@@ -183,11 +183,11 @@ class _PlatformAlbumState extends State<PlatformAlbum> {
                                                   .close_fullscreen_outlined),
                                               title: 'Warning',
                                               desc:
-                                                  'Are you sure want to delete folder',
+                                                  'Are You Sure Want To Delete Folder',
                                               btnCancelOnPress: () {},
                                               onDismissCallback: (type) {
                                                 debugPrint(
-                                                    'Dialog Dissmiss from callback $type');
+                                                    'Dialog Dissmiss From callback $type');
                                               },
                                               btnOkOnPress: () async {
                                                 String key = '';
@@ -247,7 +247,7 @@ class _PlatformAlbumState extends State<PlatformAlbum> {
                                       alignment: Alignment.topLeft,
                                       child: TextButton(
                                         child: const Text(
-                                          'Create pasward',
+                                          'Create Password',
                                           style: TextStyle(fontSize: 17),
                                         ),
                                         onPressed: () async {
@@ -294,7 +294,7 @@ class _PlatformAlbumState extends State<PlatformAlbum> {
             // backgroundColor: kdarkblue,
             // title: const Text('AlertDialog Title'),
             content: SizedBox(
-              height: 450,
+              height: 455,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
@@ -311,7 +311,7 @@ class _PlatformAlbumState extends State<PlatformAlbum> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text(
-                        "Create new pin",
+                        "Create New Pin",
                         style: TextStyle(
                             color: Colors.white60,
                             fontSize: 25,
@@ -330,20 +330,20 @@ class _PlatformAlbumState extends State<PlatformAlbum> {
                           style: TextStyle(color: kwhite, fontSize: 21),
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return 'Please enter pin';
+                              return 'Please Enter Pin';
                             }
                             if (value != 4) {
-                              return 'require 4 characters';
+                              return 'Require 4 Characters';
                             }
                             return null;
                           },
                           decoration: const InputDecoration(
-                              hintText: 'enter pin ',
+                              hintText: 'Enter Pin ',
                               hintStyle: TextStyle(
                                   color: Colors.white,
                                   fontSize: 19,
                                   fontWeight: FontWeight.w500),
-                              label: Text('pin number',
+                              label: Text('Pin Number',
                                   style: TextStyle(
                                       color: Colors.blue,
                                       fontSize: 21,
@@ -368,12 +368,12 @@ class _PlatformAlbumState extends State<PlatformAlbum> {
                               focusedBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(color: Colors.grey),
                               ),
-                              hintText: 're enter pin',
+                              hintText: 'Re Enter Pin',
                               hintStyle: TextStyle(
                                   color: Colors.white,
                                   fontSize: 19,
                                   fontWeight: FontWeight.w500),
-                              label: Text('re enter pin number',
+                              label: Text('Re Enter Pin Number',
                                   style: TextStyle(
                                       color: Colors.blue,
                                       fontSize: 21,
@@ -383,7 +383,7 @@ class _PlatformAlbumState extends State<PlatformAlbum> {
                       const SizedBox(
                         height: 10,
                       ),
-                      const Text('number of attempts',
+                      const Text('Number Of Attempts',
                           style: TextStyle(
                               color: Colors.blue,
                               fontSize: 21,
@@ -538,7 +538,7 @@ class _PlatformAlbumState extends State<PlatformAlbum> {
                                 print('jjj');
                               } else {
                                 Fluttertoast.showToast(
-                                    msg: "Select number of attempts",
+                                    msg: "Select Number Of Attempts",
                                     toastLength: Toast.LENGTH_SHORT,
                                     gravity: ToastGravity.BOTTOM,
                                     timeInSecForIosWeb: 1,
@@ -550,7 +550,7 @@ class _PlatformAlbumState extends State<PlatformAlbum> {
                               }
                             } else {
                               Fluttertoast.showToast(
-                                  msg: "check  re enter pin number",
+                                  msg: "Check  Re Enter Pin Number",
                                   toastLength: Toast.LENGTH_SHORT,
                                   gravity: ToastGravity.BOTTOM,
                                   timeInSecForIosWeb: 1,

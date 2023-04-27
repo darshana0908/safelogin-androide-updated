@@ -58,7 +58,8 @@ class _AlbumSettingsState extends State<AlbumSettings> {
 
   loadImage() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    var imageName = sharedPreferences.getString('foldername-${widget.foldernames}-${widget.pin}');
+    var imageName = sharedPreferences
+        .getString('foldername-${widget.foldernames}-${widget.pin}');
     var coverimgpath = sharedPreferences.getBool(
       'foldername-${widget.foldernames}-${widget.pin}-bool',
     );
@@ -94,155 +95,182 @@ class _AlbumSettingsState extends State<AlbumSettings> {
       child: Scaffold(
         appBar: AppBar(
           // backgroundColor: kdarkblue,
-          title: const Text('Album settings'),
+          title: const Text('Album Settings'),
           backgroundColor: kdarkblue,
         ),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
-            child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20),
-                child: Text(
-                  'General',
-                  style: TextStyle(color: kblue, fontSize: 20),
-                ),
-              ),
-              widget.isDelete
-                  ? InkWell(
-                      onTap: () {
-                        showrenameFolderDialog(context);
-                      },
-                      child: Card(
-                        child: SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          height: 150,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 20),
+                    child: Text(
+                      'General',
+                      style: TextStyle(color: kblue, fontSize: 20),
+                    ),
+                  ),
+                  widget.isDelete
+                      ? InkWell(
+                          onTap: () {
+                            showrenameFolderDialog(context);
+                          },
+                          child: Card(
+                            child: SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              height: 150,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Name',
+                                      style: TextStyle(
+                                          color: kblack,
+                                          fontSize: 19,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 10),
+                                      child: Text(
+                                        widget.foldernames,
+                                        style: TextStyle(
+                                            fontSize: 17,
+                                            color: kgray,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+                      : Card(
+                          child: SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            height: 150,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Name',
+                                    style: TextStyle(
+                                        color: kblack,
+                                        fontSize: 19,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          widget.foldernames,
+                                          style: TextStyle(
+                                              fontSize: 17,
+                                              color: kgray,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                        Icon(
+                                          Icons.lock,
+                                          color: kgray,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                  const SizedBox(
+                    height: 50,
+                  ),
+                  Divider(
+                    color: kblack,
+                  ),
+                  const SizedBox(
+                    height: 50,
+                  ),
+                  InkWell(
+                    child: Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Name',
-                                  style: TextStyle(color: kblack, fontSize: 19, fontWeight: FontWeight.w500),
+                                  'Album Cover',
+                                  style: TextStyle(
+                                      color: kblack,
+                                      fontSize: 19,
+                                      fontWeight: FontWeight.w500),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 10),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10),
                                   child: Text(
-                                    widget.foldernames,
-                                    style: TextStyle(fontSize: 17, color: kgray, fontWeight: FontWeight.w500),
+                                    'Custom',
+                                    style: TextStyle(
+                                        fontSize: 17,
+                                        color: kgray,
+                                        fontWeight: FontWeight.w500),
                                   ),
                                 ),
                               ],
                             ),
-                          ),
-                        ),
-                      ),
-                    )
-                  : Card(
-                      child: SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        height: 150,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Name',
-                                style: TextStyle(color: kblack, fontSize: 19, fontWeight: FontWeight.w500),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 10),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      widget.foldernames,
-                                      style: TextStyle(fontSize: 17, color: kgray, fontWeight: FontWeight.w500),
-                                    ),
-                                    Icon(
-                                      Icons.lock,
-                                      color: kgray,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-              const SizedBox(
-                height: 50,
-              ),
-              Divider(
-                color: kblack,
-              ),
-              const SizedBox(
-                height: 50,
-              ),
-              InkWell(
-                child: Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Album Cover',
-                              style: TextStyle(color: kblack, fontSize: 19, fontWeight: FontWeight.w500),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 10),
-                              child: Text(
-                                'Custom',
-                                style: TextStyle(fontSize: 17, color: kgray, fontWeight: FontWeight.w500),
-                              ),
-                            ),
+                            SizedBox(
+                                width: 200,
+                                height: 150,
+                                child: islosding
+                                    ? uploadimgpath
+                                        ? Image.file(
+                                            File(finalImage),
+                                            fit: BoxFit.fill,
+                                          )
+                                        : Image.asset(finalImage,
+                                            fit: BoxFit.fill)
+                                    : const CupertinoActivityIndicator()),
                           ],
                         ),
-                        SizedBox(
-                            width: 200,
-                            height: 150,
-                            child: islosding
-                                ? uploadimgpath
-                                    ? Image.file(
-                                        File(finalImage),
-                                        fit: BoxFit.fill,
-                                      )
-                                    : Image.asset(finalImage, fit: BoxFit.fill)
-                                : const CupertinoActivityIndicator()),
-                      ],
+                      ),
                     ),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => AlbumCovers(
+                                    platformePath: widget.PlatformPath,
+                                    getbool: widget.getbool,
+                                    updatefolderlist:
+                                        widget.getRenameFolderlist,
+                                    pin: widget.pin,
+                                    path: widget.path,
+                                    foldersname: widget.foldernames,
+                                  )));
+                    },
                   ),
-                ),
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => AlbumCovers(
-                                platformePath: widget.PlatformPath,
-                                getbool: widget.getbool,
-                                updatefolderlist: widget.getRenameFolderlist,
-                                pin: widget.pin,
-                                path: widget.path,
-                                foldersname: widget.foldernames,
-                              )));
-                },
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Divider(
-                color: kblack,
-              ),
-            ]),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Divider(
+                    color: kblack,
+                  ),
+                ]),
           ),
         ),
       ),
@@ -259,15 +287,20 @@ class _AlbumSettingsState extends State<AlbumSettings> {
               height: 250,
               padding: const EdgeInsets.all(20),
               child: Column(mainAxisSize: MainAxisSize.min, children: [
-                TextField(controller: controler, decoration: const InputDecoration(hintText: 'Folder name')),
+                TextField(
+                    controller: controler,
+                    decoration: const InputDecoration(hintText: 'Folder Name')),
                 const SizedBox(height: 40),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    TextButton(onPressed: () => Navigator.pop(context, true), child: const Text('CANCEL')),
+                    TextButton(
+                        onPressed: () => Navigator.pop(context, true),
+                        child: const Text('CANCEL')),
                     TextButton(
                         onPressed: () async {
-                          if (controler.text.length < 20 && controler.text.isNotEmpty) {
+                          if (controler.text.length < 20 &&
+                              controler.text.isNotEmpty) {
                             print(widget.foldernames);
                             setState(() {
                               var myfile = Directory(widget.path);
@@ -286,14 +319,14 @@ class _AlbumSettingsState extends State<AlbumSettings> {
                                         height: 10,
                                       ),
                                       Text(
-                                        'required folder name less',
+                                        'Required Folder Name Less',
                                         style: TextStyle(
                                           color: kred,
                                           fontSize: 24,
                                         ),
                                       ),
                                       Text(
-                                        'of than 20 characters',
+                                        'Of Than 20 Characters',
                                         style: TextStyle(
                                           color: kred,
                                           fontSize: 24,
@@ -307,13 +340,17 @@ class _AlbumSettingsState extends State<AlbumSettings> {
                                           Navigator.pop(context);
                                         },
                                         child: Container(
-                                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(30)),
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(30)),
                                           alignment: Alignment.center,
                                           height: 50,
                                           width: 100,
                                           child: const Text(
                                             'OK',
-                                            style: TextStyle(fontSize: 25, color: Colors.blue),
+                                            style: TextStyle(
+                                                fontSize: 25,
+                                                color: Colors.blue),
                                           ),
                                         ),
                                       )
@@ -340,12 +377,15 @@ class _AlbumSettingsState extends State<AlbumSettings> {
     var newPath = path.substring(0, lastSeparator + 1) + newFileName;
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
-    String? oldKey = sharedPreferences.getString("foldername-${widget.foldernames}-${widget.pin}");
+    String? oldKey = sharedPreferences
+        .getString("foldername-${widget.foldernames}-${widget.pin}");
     log(path);
     var platformPath = "${widget.PlatformPath}${widget.pin}/$newFileName";
     log(platformPath);
-    await sharedPreferences.setString('foldername-$newFileName-${widget.pin}', oldKey.toString());
-    var renamefolder = sqlDb.updateData("UPDATE itempassword SET folderid ='$newFileName', path = '$platformPath' WHERE path ='$path';");
+    await sharedPreferences.setString(
+        'foldername-$newFileName-${widget.pin}', oldKey.toString());
+    var renamefolder = sqlDb.updateData(
+        "UPDATE itempassword SET folderid ='$newFileName', path = '$platformPath' WHERE path ='$path';");
     print(renamefolder);
     setState(() {
       widget.getRenameFolderlist();
@@ -377,7 +417,7 @@ class _AlbumSettingsState extends State<AlbumSettings> {
           },
           btnOkIcon: Icons.check_circle,
           onDismissCallback: (type) async {
-            debugPrint('Dialog Dismiss from callback $type');
+            debugPrint('Dialog Dismiss From callback $type');
           },
         ).show();
       },
@@ -388,7 +428,8 @@ class _AlbumSettingsState extends State<AlbumSettings> {
       loadImage();
     });
     // return
-    await sharedPreferences.setString('foldername-$newFileName-${widget.pin}', oldKey.toString());
+    await sharedPreferences.setString(
+        'foldername-$newFileName-${widget.pin}', oldKey.toString());
     setState(() {
       loadImage();
     });

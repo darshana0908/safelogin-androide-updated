@@ -14,10 +14,10 @@ import 'package:safe_encrypt/db/sqldb.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest_all.dart' as tz;
 
-import '../class/lcl_notification.dart';
+import '../../../../class/lcl_notification.dart';
 
-class TxtWritingPage extends StatefulWidget {
-  const TxtWritingPage(
+class CeateNote extends StatefulWidget {
+  const CeateNote(
       {Key? key,
       required this.pageload,
       required this.title,
@@ -32,7 +32,7 @@ class TxtWritingPage extends StatefulWidget {
   final Function pageload;
 
   @override
-  State<TxtWritingPage> createState() => _TxtWritingPageState();
+  State<CeateNote> createState() => _CeateNoteState();
 }
 
 // QuillController _controller = QuillController.basic();
@@ -60,7 +60,7 @@ int _currentHorizontalIntValue = 0;
 int? remainderDate;
 // QuillController _controller = QuillController.basic();
 
-class _TxtWritingPageState extends State<TxtWritingPage> {
+class _CeateNoteState extends State<CeateNote> {
   @override
   void initState() {
     setState(() {
@@ -131,7 +131,7 @@ class _TxtWritingPageState extends State<TxtWritingPage> {
           setState(() {
             // savebutton = false;
             // await widget.loading();
-            widget.pageload();
+            widget.loading();
             Navigator.pop(context);
           });
 
@@ -155,7 +155,8 @@ class _TxtWritingPageState extends State<TxtWritingPage> {
                 setState(() {
                   // savebutton = false;
                   // await widget.loading();
-                  widget.pageload();
+                  // widget.pageload();
+                  widget.loading();
                   Navigator.pop(context);
                 });
               },
@@ -164,7 +165,7 @@ class _TxtWritingPageState extends State<TxtWritingPage> {
             backgroundColor: kdarkblue,
           ),
           body: SingleChildScrollView(
-            child: Column(children: [
+            child: Stack(children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
@@ -175,42 +176,53 @@ class _TxtWritingPageState extends State<TxtWritingPage> {
                   ),
                 ),
               ),
-              TextButton(
-                onPressed: () {
-                  if (controler1.text.isNotEmpty) {
-                    savefiledialog();
-                    setState(() {
-                      savebutton = false;
-                      controler.clear();
-                      remainderDate = 0;
-                      remainderbutton = false;
-                    });
-                  } else {
-                    Fluttertoast.showToast(
-                        msg: " required characters",
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.BOTTOM,
-                        timeInSecForIosWeb: 1,
-                        backgroundColor: Colors.lightGreen,
-                        textColor: Colors.white,
-                        fontSize: 16.0);
-                  }
-                },
-                child: Container(
-                    alignment: Alignment.center,
-                    height: 60,
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 2, 235, 123),
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Text(
-                      'Save',
-                      style: TextStyle(color: kwhite, fontSize: 21),
-                    )),
+              Positioned(
+                bottom: 0.0,
+                child: TextButton(
+                  onPressed: () {
+                    if (controler1.text.isNotEmpty) {
+                      savefiledialog();
+                      setState(() {
+                        savebutton = false;
+                        controler.clear();
+                        remainderDate = 0;
+                        remainderbutton = false;
+                      });
+                    } else {
+                      Fluttertoast.showToast(
+                          msg: " required characters",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.BOTTOM,
+                          timeInSecForIosWeb: 1,
+                          backgroundColor: Colors.lightGreen,
+                          textColor: Colors.white,
+                          fontSize: 16.0);
+                    }
+                  },
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Container(
+                        alignment: Alignment.center,
+                        height: 60,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                            color: const Color.fromARGB(255, 2, 235, 123),
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Text(
+                          'Save',
+                          style: TextStyle(color: kwhite, fontSize: 21),
+                        )),
+                  ),
+                ),
               ),
             ]),
           ),
         ));
+  }
+
+  back() {
+    widget.loading();
+    Navigator.pop(context);
   }
 
   Future<void> savefiledialog() async {
@@ -222,7 +234,7 @@ class _TxtWritingPageState extends State<TxtWritingPage> {
           return AlertDialog(
             actions: [
               TextButton(
-                onPressed: () {
+                onPressed: () async {
                   Navigator.pop(context);
                   controler1.clear();
                 },
@@ -261,6 +273,7 @@ class _TxtWritingPageState extends State<TxtWritingPage> {
                           fontSize: 16.0);
                       controler1.clear();
                       Navigator.pop(context);
+                      await back();
 
                       // setState(() {
                       //   // Navigator.pop(context);

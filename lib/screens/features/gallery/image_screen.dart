@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path/path.dart' as path;
 import 'package:safe_encrypt/constants/images.dart';
@@ -17,7 +18,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../services/image_service.dart';
 import '../../../constants/colors.dart';
-import '../../../services/text_writing_page.dart';
+import 'nots/create_note.dart';
 
 class ImageScreen extends StatefulWidget {
   final String path;
@@ -63,11 +64,15 @@ class _ImageScreenState extends State<ImageScreen>
   var coverimgpath;
   String finalImage = '';
   bool isImageLoading = true;
+  bool galleryTab = false;
+  bool notTab = false;
 
   // final TabController _tabController = TabController(length: 2, vsync: );
 
   @override
   void initState() {
+    loadpage();
+    textremainder();
     loadImage();
     setState(() {
       textremainder();
@@ -75,6 +80,7 @@ class _ImageScreenState extends State<ImageScreen>
     });
 
     decryptImages();
+    decryptedImages;
     loadPhotos();
     super.initState();
   }
@@ -95,20 +101,15 @@ class _ImageScreenState extends State<ImageScreen>
   }
 
   textremainder() async {
-    // remainder = await sqlDb.readData("SELECT * FROM  'notes'WHERE path = '${widget.path}'  ");
-    var remainders = await sqlDb
+    log('fffffff');
+    remainder = await sqlDb
         .readData("SELECT * FROM notes WHERE path = '${widget.path}'");
-
-    // log(myfolderlist[1]['folder-id'].toString());
-    setState(() {
-      // log(remainders);
-      remainders;
-    });
-    // List<Map<String, dynamic>>.generate(remainder.length, (index) {
-    //   log(remainder[index]['dtime'].toString());
-    //   return Map<String, dynamic>.from(remainder[index]);
-    // }, growable: true);
-    // var text = remainder[1]['text'];
+    if (remainder.isNotEmpty) {
+      setState(() {
+        remainder;
+        log(remainder.toString());
+      });
+    }
   }
 
   loadImage() async {
@@ -253,11 +254,13 @@ class _ImageScreenState extends State<ImageScreen>
                               setState(() {
                                 currentTabIndex = 0;
                                 hideminimyzeicon = true;
+                                galleryTab = false;
                               });
                             } else {
                               setState(() {
                                 hideminimyzeicon = false;
                                 currentTabIndex = 1;
+                                galleryTab = true;
                               });
                             }
                           },
@@ -291,87 +294,91 @@ class _ImageScreenState extends State<ImageScreen>
                           ])),
                 ),
                 floatingActionButton: Padding(
-                  padding: const EdgeInsets.only(bottom: 50),
-                  child: SpeedDial(
-                    buttonSize: const Size(70.0, 70.0),
-                    childrenButtonSize: const Size(55.0, 55.0),
-                    overlayColor: const Color(0xff00aeed),
-                    overlayOpacity: 1.0,
-                    activeIcon: Icons.close,
-                    foregroundColor: kwhite,
-                    activeForegroundColor: kblack,
-                    backgroundColor: kblue,
-                    activeBackgroundColor: kwhite,
-                    spacing: 20,
-                    spaceBetweenChildren: 15,
-                    icon: Icons.add,
-                    children: [
-                      SpeedDialChild(
-                        labelWidget: Padding(
-                            padding: const EdgeInsets.only(right: 20),
-                            child: Text('Notes',
-                                style: TextStyle(
-                                    color: kwhite,
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.w500))),
-                        onTap: () async {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) => TxtWritingPage(
-                                      pageload: loadpage,
-                                      title: widget.title,
-                                      pin: widget.pin,
-                                      loading: textremainder,
-                                      path: widget.path,
-                                    )),
-                          );
-                        },
-                        elevation: 150,
-                        backgroundColor: Colors.black38,
-                        child:
-                            Icon(Icons.note_add_sharp, color: kwhite, size: 30),
-                        labelBackgroundColor: const Color(0xff00aeed),
-                      ),
-                      SpeedDialChild(
-                        labelWidget: Padding(
-                            padding: const EdgeInsets.only(right: 20),
-                            child: Text('Take photo',
-                                style: TextStyle(
-                                    color: kwhite,
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.w500))),
-                        onTap: () async {
-                          takePhoto();
-                          setState(() {
-                            widget.getbool();
-                          });
-                        },
-                        elevation: 150,
-                        backgroundColor: Colors.black38,
-                        child: Icon(Icons.camera_alt, color: kwhite, size: 30),
-                        labelBackgroundColor: const Color(0xff00aeed),
-                      ),
-                      SpeedDialChild(
-                          child: Icon(Icons.photo, color: kwhite, size: 30),
-                          labelWidget: Padding(
-                              padding: const EdgeInsets.only(right: 20),
-                              child: Text('Import files',
-                                  style: TextStyle(
-                                      color: kwhite,
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.w500))),
-                          onTap: () async {
-                            importFiles();
-                            setState(() {
-                              widget.getbool();
-                              print(widget.getbool());
-                            });
-                          },
-                          backgroundColor: Colors.black38),
-                    ],
-                  ),
-                ),
+                    padding: const EdgeInsets.only(bottom: 50),
+                    child: SpeedDial(
+                      buttonSize: const Size(70.0, 70.0),
+                      childrenButtonSize: const Size(55.0, 55.0),
+                      overlayColor: const Color(0xff00aeed),
+                      overlayOpacity: 1.0,
+                      activeIcon: Icons.close,
+                      foregroundColor: kwhite,
+                      activeForegroundColor: kblack,
+                      backgroundColor: kblue,
+                      activeBackgroundColor: kwhite,
+                      spacing: 20,
+                      spaceBetweenChildren: 15,
+                      icon: Icons.add,
+                      children: [
+                        galleryTab == true
+                            ? SpeedDialChild(
+                                labelWidget: Padding(
+                                    padding: const EdgeInsets.only(right: 20),
+                                    child: Text('Notes',
+                                        style: TextStyle(
+                                            color: kwhite,
+                                            fontSize: 22,
+                                            fontWeight: FontWeight.w500))),
+                                onTap: () async {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => CeateNote(
+                                              pageload: loadpage,
+                                              title: widget.title,
+                                              pin: widget.pin,
+                                              loading: textremainder,
+                                              path: widget.path,
+                                            )),
+                                  );
+                                },
+                                elevation: 150,
+                                backgroundColor: Colors.black38,
+                                child: Icon(Icons.note_add_sharp,
+                                    color: kwhite, size: 30),
+                                labelBackgroundColor: const Color(0xff00aeed),
+                              )
+                            : SpeedDialChild(
+                                labelWidget: Padding(
+                                    padding: const EdgeInsets.only(right: 20),
+                                    child: Text('Take Photo',
+                                        style: TextStyle(
+                                            color: kwhite,
+                                            fontSize: 22,
+                                            fontWeight: FontWeight.w500))),
+                                onTap: () async {
+                                  takePhoto();
+                                  setState(() {
+                                    widget.getbool();
+                                  });
+                                },
+                                elevation: 150,
+                                backgroundColor: Colors.black38,
+                                child: Icon(Icons.camera_alt,
+                                    color: kwhite, size: 30),
+                                labelBackgroundColor: const Color(0xff00aeed),
+                              ),
+                        galleryTab == true
+                            ? SpeedDialChild()
+                            : SpeedDialChild(
+                                child:
+                                    Icon(Icons.photo, color: kwhite, size: 30),
+                                labelWidget: Padding(
+                                    padding: const EdgeInsets.only(right: 20),
+                                    child: Text('Import Files',
+                                        style: TextStyle(
+                                            color: kwhite,
+                                            fontSize: 22,
+                                            fontWeight: FontWeight.w500))),
+                                onTap: () async {
+                                  importFiles();
+                                  setState(() {
+                                    widget.getbool();
+                                    print(widget.getbool());
+                                  });
+                                },
+                                backgroundColor: Colors.black38),
+                      ],
+                    )),
                 backgroundColor: kwhite,
                 body: TabBarView(
                   controller: controller,
@@ -380,17 +387,19 @@ class _ImageScreenState extends State<ImageScreen>
                       child: SizedBox(
                         height: MediaQuery.of(context).size.height * 0.7,
                         child: _isLoading
-                            ? const Center(
-                                child: SizedBox(
-                                height: 100,
-                                width: 100,
-                                child: CupertinoActivityIndicator(radius: 20),
+                            ? Center(
+                                child: Center(
+                                child: LoadingAnimationWidget.staggeredDotsWave(
+                                  color: Colors.greenAccent,
+                                  size: 80,
+                                ),
                               ))
                             : loadPhotos(),
                       ),
                     ),
                     Center(
                       child: MyNots(
+                          notlist: remainder,
                           path: widget.path,
                           pin: widget.pin,
                           getbool: textremainder,
@@ -717,7 +726,7 @@ class _ImageScreenState extends State<ImageScreen>
                   child: Icon(Icons.photo_library_rounded,
                       size: 50, color: Colors.grey[400])),
               const SizedBox(height: 50),
-              Text("This album is empty.",
+              Text("This Album Is Empty.",
                   style: TextStyle(fontSize: 18.0, color: Colors.grey[500])),
             ],
           ),
@@ -732,7 +741,7 @@ class _ImageScreenState extends State<ImageScreen>
 
   void importFiles() async {
     setState(() {
-      // _isLoading = true;
+      _isLoading = true;
     });
 
     FilePickerResult? result =
@@ -754,11 +763,10 @@ class _ImageScreenState extends State<ImageScreen>
         setState(
           () {
             decryptedImages.add('${widget.path}/$imageName');
-            loadPhotos();
-            Future.delayed(const Duration(seconds: 1));
+
+            // Future.delayed(const Duration(seconds: 1));
             _isLoading = false;
             decryptedImages.last;
-            decryptImages();
           },
         );
       }
@@ -792,6 +800,8 @@ class _ImageScreenState extends State<ImageScreen>
         setState(
           () {
             decryptedImages.add('${widget.path}/$imageName');
+            decryptedImages.last;
+            _isLoading = false;
           },
         );
         Visibility(
@@ -849,6 +859,7 @@ class _ImageScreenState extends State<ImageScreen>
 
     if (encryptedImages.isNotEmpty) {
       for (var image in encryptedImages) {
+        log(image.toString());
         imageName = image.replaceAll('$currentDirectory/', '');
         outputName = imageName.replaceAll('.aes', '');
         File decryptedFile = await fileCryptor.decrypt(
@@ -859,6 +870,7 @@ class _ImageScreenState extends State<ImageScreen>
       setState(() {
         imgload = true;
         _isLoading = false;
+        decryptedImages;
       });
     } else {
       setState(() => _isLoading = false);

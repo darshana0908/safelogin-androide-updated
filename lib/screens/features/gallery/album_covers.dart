@@ -72,10 +72,12 @@ class _AlbumCoversState extends State<AlbumCovers> {
         ),
         //  backgroundColor: kdarkblue),
         body: SingleChildScrollView(
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             const Padding(
               padding: EdgeInsets.all(8.0),
-              child: Text('Select item from this album for the cover photo', style: TextStyle(fontSize: 17)),
+              child: Text('Select Item From This Album For The Cover Photo',
+                  style: TextStyle(fontSize: 17)),
             ),
             const SizedBox(height: 20),
             SizedBox(
@@ -84,7 +86,9 @@ class _AlbumCoversState extends State<AlbumCovers> {
                 child: SwitchListTile(
                     activeTrackColor: klightBlueAccent,
                     activeColor: kblue,
-                    title: const Text('Set custom cover', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
+                    title: const Text('Set Custom Cover',
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.w500)),
                     value: customcover,
                     onChanged: (bool value) {
                       setState(() {
@@ -97,7 +101,7 @@ class _AlbumCoversState extends State<AlbumCovers> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Text(
-                    'Import covers from gallery',
+                    'Import Covers From Gallery',
                     style: TextStyle(
                       fontSize: 20,
                     ),
@@ -116,7 +120,7 @@ class _AlbumCoversState extends State<AlbumCovers> {
             ),
             const Padding(
               padding: EdgeInsets.all(12.0),
-              child: Text('Default covers',
+              child: Text('Default Covers',
                   style: TextStyle(
                     fontSize: 20,
                   )),
@@ -141,13 +145,18 @@ class _AlbumCoversState extends State<AlbumCovers> {
                                 headerAnimationLoop: false,
                                 dialogType: DialogType.info,
                                 showCloseIcon: true,
-                                title: ' To change cover press ok',
+                                title: ' To Change Cover Press Ok',
                                 desc: '',
                                 btnOkOnPress: () async {
                                   debugPrint('Continue');
-                                  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-                                  await sharedPreferences.setString('foldername-${widget.foldersname}-${widget.pin}', selectedfolderString);
-                                  await sharedPreferences.setBool('foldername-${widget.foldersname}-${widget.pin}-bool', false);
+                                  SharedPreferences sharedPreferences =
+                                      await SharedPreferences.getInstance();
+                                  await sharedPreferences.setString(
+                                      'foldername-${widget.foldersname}-${widget.pin}',
+                                      selectedfolderString);
+                                  await sharedPreferences.setBool(
+                                      'foldername-${widget.foldersname}-${widget.pin}-bool',
+                                      false);
                                   await Navigator.pushAndRemoveUntil(
                                       context,
                                       MaterialPageRoute(
@@ -158,7 +167,8 @@ class _AlbumCoversState extends State<AlbumCovers> {
                                 },
                                 btnOkIcon: Icons.check_circle,
                                 onDismissCallback: (type) {
-                                  debugPrint('Dialog Dismiss from callback $type');
+                                  debugPrint(
+                                      'Dialog Dismiss From Callback $type');
                                 },
                               ).show();
 
@@ -179,19 +189,30 @@ class _AlbumCoversState extends State<AlbumCovers> {
                           child: Stack(
                             children: [
                               SizedBox(
-                                width: selectedfolderString == imgList[index] ? MediaQuery.of(context).size.width : 0,
-                                height: selectedfolderString == imgList[index] ? MediaQuery.of(context).size.height : 0,
+                                width: selectedfolderString == imgList[index]
+                                    ? MediaQuery.of(context).size.width
+                                    : 0,
+                                height: selectedfolderString == imgList[index]
+                                    ? MediaQuery.of(context).size.height
+                                    : 0,
                               ),
                               Positioned(
-                                left: selectedfolderString == imgList[index] ? 24 : 0,
+                                left: selectedfolderString == imgList[index]
+                                    ? 24
+                                    : 0,
                                 top: selectedfolderString == imgList[index]
 
                                     //
                                     ? 22
                                     : 0,
                                 child: SizedBox(
-                                  width: selectedfolderString == imgList[index] ? 120 : MediaQuery.of(context).size.width / 3 - 8,
-                                  height: selectedfolderString == imgList[index] ? 120 : 150,
+                                  width: selectedfolderString == imgList[index]
+                                      ? 120
+                                      : MediaQuery.of(context).size.width / 3 -
+                                          8,
+                                  height: selectedfolderString == imgList[index]
+                                      ? 120
+                                      : 150,
                                   child: Image.asset(
                                     imgList[index],
                                     fit: BoxFit.fill,
@@ -202,7 +223,9 @@ class _AlbumCoversState extends State<AlbumCovers> {
                                   left: customcover ? 10 : 0,
                                   top: customcover ? 3 : 0,
                                   child: Icon(
-                                    selectedfolderString == imgList[index] ? Icons.check_circle_rounded : null,
+                                    selectedfolderString == imgList[index]
+                                        ? Icons.check_circle_rounded
+                                        : null,
                                     color: klightBlueAccent,
                                     size: 30,
                                   )),
@@ -225,7 +248,8 @@ class _AlbumCoversState extends State<AlbumCovers> {
     if (imageList != null) {
       for (XFile image in imageList) {
         fileType = path.extension(image.path);
-        var imageName = '''IMG-${DateTime.now().microsecondsSinceEpoch.toString()}$fileType''';
+        var imageName =
+            '''IMG-${DateTime.now().microsecondsSinceEpoch.toString()}$fileType''';
         print(imageName);
         File fileToSave = File(image.path);
         fileToSave.copy('${widget.platformePath}$imageName');
@@ -233,10 +257,13 @@ class _AlbumCoversState extends State<AlbumCovers> {
         var uploadimgpath = '${widget.platformePath}$imageName';
         // String key = '';
         // ImageService(pinNumber: key).encryptFiles(imageName, '$imageName.aes', widget.path);
-        SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+        SharedPreferences sharedPreferences =
+            await SharedPreferences.getInstance();
 
-        await sharedPreferences.setString('foldername-${widget.foldersname}-${widget.pin}', uploadimgpath);
-        await sharedPreferences.setBool('foldername-${widget.foldersname}-${widget.pin}-bool', true);
+        await sharedPreferences.setString(
+            'foldername-${widget.foldersname}-${widget.pin}', uploadimgpath);
+        await sharedPreferences.setBool(
+            'foldername-${widget.foldersname}-${widget.pin}-bool', true);
         log(uploadimgpath);
         setState(
           () {
@@ -249,7 +276,7 @@ class _AlbumCoversState extends State<AlbumCovers> {
           headerAnimationLoop: false,
           dialogType: DialogType.info,
           showCloseIcon: true,
-          title: ' To change cover press ok',
+          title: ' To Change Cover Press Ok',
           desc: '',
           btnOkOnPress: () async {
             debugPrint('Continue');
